@@ -16,7 +16,7 @@ export enum UserPower {
 }
 
 const User = createContainer(() => {
-  const [status, setStatus] = useState(
+  const [status, setStatus] = useState<LoginStatus>(
     isCookieExist("session_id") ? LoginStatus.logged : LoginStatus.notLogged
   );
   const [id, setId] = useState<number>();
@@ -51,32 +51,29 @@ const User = createContainer(() => {
     }
   };
 
-//   const login = async (userName: string, password: string) => {
-//     setStatus(LoginStatus.logging);
-//     try {
-//       const res = await spanPromise(
-//         500,
-//         fetch({
-//           method: "POST",
-//           url: "/user_management/login/",
-//           data: {
-//             username: userName,
-//             password: password,
-//           },
-//         })
-//       );
-//       if (!isResponseOk(res)) {
-//         if (res.data && res.data.message) throw new Error(res.data.message);
-//         else throw new Error(`${res.status}: ${res.statusText}`);
-//       }
-//       setPower(res.data.data.admin ? UserPower.admin : UserPower.common);
-//       setStatus(LoginStatus.logged);
-//     } catch (e) {
-//       console.log(e.response);
-//       setStatus(LoginStatus.notLogged);
-//       throw e;
-//     }
-//   };
+  const login = async (userName: string, password: string) => {
+    setStatus(LoginStatus.logging);
+    try {
+      const res: AxiosResponse<any> = await fetch.post("/user_management/login/", {
+        username: userName,
+        password: password,
+      });
+      if (!isResponseOk(res)) {
+        // if login false.
+        throw new Error(
+          res.data && res.data.message
+            ? res.data.message
+            : `${res.status}: ${res.statusText}`
+        );
+      }
+      setStatus(LoginStatus.logged);
+      fetchInfo();
+    } catch (e) {
+      console.log(e.response);
+      setStatus(LoginStatus.notLogged);
+      throw e;
+    }
+  };
   const logout = async () => {
     try {
       const res: AxiosResponse<any> = await fetch.post("/"); // TODO: where to logout
@@ -92,13 +89,15 @@ const User = createContainer(() => {
   return {
     // states
     status,
-    name,
     power,
     id,
     info,
     // actions
     //login,
     updateInfo: fetchInfo,
+    login,
     logout,
   };
 });
+
+export default User

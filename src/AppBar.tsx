@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const PageLayout: React.FC = () => {
+export const PageLayout: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -209,7 +209,7 @@ const Pages: React.FC = () => {
 };
 
 const fakeAuth = {
-  logged: true,
+  logged: false,
   authenticate(cb: any) {
     this.logged = true;
     setTimeout(cb, 100); // fake async

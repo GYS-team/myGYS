@@ -13,7 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import User from "./model/user";
+import logo from "./assets/logo.png";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -45,31 +46,24 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  link: {
+    justifyContent: "center",
+    alignContent: "center",
+  }
 }));
-
-const request = axios.create({
-  baseURL: "http://localhost:9000/check",
-});
 
 interface msg {
   username: string;
   password: string;
 }
-export default function SignIn() {
+const SignIn: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm<msg>();
+  let user = User.useContainer();
   const onSubmit = async (data: msg) => {
-    alert(JSON.stringify(data));
+    //  alert(JSON.stringify(data));
     try {
-      let response = await request.request({
-        url: "/login",
-        method: "POST",
-        data: {
-          username: data.username,
-          password: data.password,
-        },
-      });
-      console.log(response.data);
+      await user.login(data.username, data.password);
     } catch (e) {
       console.log(e);
     }
@@ -78,9 +72,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <img src={logo} />
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -96,7 +88,7 @@ export default function SignIn() {
             required
             fullWidth
             id="username"
-            label="Email Address"
+            label="NetID"
             name="username"
             autoComplete="username"
             autoFocus
@@ -110,18 +102,27 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="密码"
             type="password"
             id="password"
             autoComplete="current-password"
             error={errors.password && true}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            inputRef={register}
-            name="Rememberme"
-            label="Remember me"
-          />
+          <Grid container>
+            <Grid item xs justify="center" className={classes.link}>
+              <Link href="#" variant="body2" className={classes.link}>
+                {"忘记密码?"}
+              </Link>
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                inputRef={register}
+                name="Rememberme"
+                label="Remember me"
+              />
+            </Grid>
+          </Grid>
           <Button
             type="submit"
             fullWidth
@@ -129,20 +130,8 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            登入
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
       <Box mt={8}>
@@ -150,4 +139,6 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};
+
+export default SignIn;
