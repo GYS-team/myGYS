@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import {
   makeStyles,
@@ -22,9 +22,16 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import { BrowserRouter, Redirect, Switch, Route } from "react-router-dom";
-import SignIn from "./signin";
-import { Filter } from "./model/student";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import { Link, Redirect, Route,Switch } from "react-router-dom";
+import User from "./model/user";
+import fetch from "./utils/fetch";
+import { isResponseOk, useLoadGuard } from "./utils/utils";
+import routes, { RouteName } from "./pages/routes";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -89,10 +96,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const routes2nav = (id: RouteName) => ({
+  to: routes[id].url,
+  children: routes[id].name,
+});
+
 export const PageLayout: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  let user = User.useContainer();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -124,6 +137,14 @@ export const PageLayout: React.FC = () => {
           <Typography variant="h6" noWrap>
             SYSU-MATH-ZH 公益时平台
           </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={user.logout}
+            edge="end"
+          >
+            <MenuRoundedIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -152,10 +173,12 @@ export const PageLayout: React.FC = () => {
           {["学生列表", "活动列表", "申述列表", "删除列表", "删除记录"].map(
             (text, index) => (
               <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+                <Link to="next">
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </Link>
               </ListItem>
             )
           )}
@@ -168,56 +191,55 @@ export const PageLayout: React.FC = () => {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Typography paragraph>test</Typography>
+        <OutlinedCard />
+        {/* <Switch>
+          <Route
+            exact
+            path={routes.activityList.url}
+            render={() => <>Not found</>}
+          />
+          <Redirect to = {routes.studentList.url}/>
+        </Switch> */}
+        <Typography paragraph></Typography>
       </main>
     </div>
   );
 };
 
-const Pages: React.FC = () => {
-  const [logged, Setlogged] = useState(false);
+export default PageLayout;
+
+const useStyles2 = makeStyles({
+  root: {
+    minWidth: 275,
+    maxWidth: 500,
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+});
+
+const OutlinedCard: React.FC = () => {
+  const classes = useStyles2();
+  let user = User.useContainer();
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Redirect
-          exact={true}
-          from="/"
-          to={fakeAuth.logged ? "/admin" : "/login"}
-        />
-        <Route
-          exact
-          path="/login"
-          render={() =>
-            !fakeAuth.logged ? <SignIn /> : <Redirect to="/admin" />
-          }
-        />
-        <Route
-          render={() =>
-            fakeAuth.logged ? (
-              <Switch>
-                <Route path="/admin" component={PageLayout} />
-              </Switch>
-            ) : (
-              <Redirect to={"/login"} />
-            )
-          }
-        />
-      </Switch>
-    </BrowserRouter>
+    <Card className={classes.root} variant="outlined">
+      <CardContent>
+        <Typography className={classes.pos} variant="body2" component="p">
+          学号：{user.id}; <br />
+          邮箱：{user.info.email}; <br />
+          名字：{user.info.name}; <br />
+          分数：{user.info.score};
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
-
-const fakeAuth = {
-  logged: false,
-  authenticate(cb: any) {
-    this.logged = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb: any) {
-    this.logged = false;
-    setTimeout(cb, 100);
-  },
-};
-
-export default Pages;

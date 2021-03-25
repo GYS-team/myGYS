@@ -3,7 +3,7 @@ import { createContainer } from "unstated-next";
 import { isCookieExist, isResponseOk } from "../utils/utils";
 import fetch from "../utils/fetch";
 import { Student, parseToStudent } from "./student";
-import { AxiosPromise, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 export enum LoginStatus {
   notLogged,
   logged,
@@ -19,7 +19,7 @@ const User = createContainer(() => {
   const [status, setStatus] = useState<LoginStatus>(
     isCookieExist("session_id") ? LoginStatus.logged : LoginStatus.notLogged
   );
-  const [id, setId] = useState<number>();
+  const [id, setId] = useState<number>(0);
   const [power, setPower] = useState<UserPower>(UserPower.common);
   const [info, infoDispatcher] = useReducer<
     Reducer<Partial<Student>, Partial<Student>>
@@ -39,9 +39,11 @@ const User = createContainer(() => {
   };
 
   const fetchInfo = async () => {
-    const res: AxiosResponse<any> = await fetch.get("/"); // TODO: where to get info
+    const res: AxiosResponse<any> = await fetch.get("/", {
+      params: { id: id },
+    });
     if (isResponseOk(res)) {
-      const data = res.data.data;
+      const data = res.data;
       setId(data.id);
       setPower(data.admin ? UserPower.admin : UserPower.common);
       const student = data.student;
@@ -51,11 +53,11 @@ const User = createContainer(() => {
     }
   };
 
-  const login = async (userName: string, password: string) => {
-    setStatus(LoginStatus.logging);
+  const login = async (NetID: string, password: string) => {
+    setStatus(LoginStatus.notLogged);
     try {
-      const res: AxiosResponse<any> = await fetch.post("/user_management/login/", {
-        username: userName,
+      const res: AxiosResponse<any> = await fetch.post("auth/", {
+        id: NetID,
         password: password,
       });
       if (!isResponseOk(res)) {
@@ -76,7 +78,9 @@ const User = createContainer(() => {
   };
   const logout = async () => {
     try {
-      const res: AxiosResponse<any> = await fetch.post("/"); // TODO: where to logout
+      const res: AxiosResponse<any> = await fetch.post("auth/", {
+        status: LoginStatus,
+      }); // TODO: where to logout
       if (isResponseOk(res) && res.data.code === 1) {
         setStatus(LoginStatus.notLogged);
         clearInfo();
@@ -100,4 +104,4 @@ const User = createContainer(() => {
   };
 });
 
-export default User
+export default User;

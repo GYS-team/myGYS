@@ -1,12 +1,11 @@
 import ReactDOM from 'react-dom'
-import SignIn from './signin'
-import Pages from './AppBar'
+import Pages from './pages/page'
 import User from './model/user'
 import React, { useEffect } from 'react'
 const App: React.FC = () => {
     return (
       <User.Provider>
-        <SignIn/>
+        <Pages/>
       </User.Provider>
     )
   }
