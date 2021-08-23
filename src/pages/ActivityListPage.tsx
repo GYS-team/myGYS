@@ -1,19 +1,21 @@
 import {
-  Box,
   Button,
   ButtonGroup,
-  FormControlLabel,
-  Switch,
 } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
-import React from "react";
+import React, { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import moment from "moment";
-import { ActivityStatus, Activity, activityStatusMsg } from "../model/ActivityModel";
+import {
+  ActivityStatus,
+  Activity,
+  activityStatusMsg,
+  parseToActivity,
+} from "../model/ActivityModel";
 import User, { UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
-import { isResponseOk } from "../utils/InternetUtils";
+import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
 const testActivity: Activity[] = [
   {
     name: "数学节",
@@ -27,16 +29,19 @@ const testActivity: Activity[] = [
     inititor_phone: "12345678901",
   },
 ];
-const ActivityListPage: React.FC<any> = (activityList: Activity[]) => {
+const ActivityListPage: React.FC<any> = () => {
+  let user = User.useContainer();
+  const [activityList, setActivityList] = useState<Activity[]>([]);
+  const itemsGuard = useLoadGuard();
+
   const fetchActivityList = async () => {
+    // 从数据库读取活动列表数据
     const res: AxiosResponse<any> = await fetch.get("application/admin/");
-    if (!isResponseOk(res)) {
-      throw Error();
+    if (isResponseOk(res)) {
+      setActivityList(res.data.data.map(parseToActivity));
     }
-    return res.data.data;
   };
 
-  let user = User.useContainer();
   const columns = [
     {
       name: "活动",
@@ -86,29 +91,36 @@ const ActivityListPage: React.FC<any> = (activityList: Activity[]) => {
       },
     },
   ];
-  let activity = activityList;
-  //TODO： 报错 问题不得而知 testActivity成立，但是activityList不成立， 类型相同
-  const data2 = testActivity.map(
-    (act: Activity): string[] =>
-      new Array(
-        act.name,
-        activityStatusMsg(act.status),
-        act.startDate.format("YYYY-MM-DD"),
-        "30",
-        act.activityUrl
-      )
-  );
+  // let activity = activityList;
+  // //TODO： 报错 问题不得而知 testActivity成立，但是activityList不成立， 类型相同
+  // const data2 = testActivity.map(
+  //   (act: Activity): string[] =>
+  //     new Array(
+  //       act.name,
+  //       activityStatusMsg(act.status),
+  //       act.startDate.format("YYYY-MM-DD"),
+  //       "30",
+  //       act.activityUrl
+  //     )
+  // );
+  itemsGuard.guard(fetchActivityList);
   return (
-    <MUIDataTable
-      title={"活动列表"}
-      data={data2}
-      columns={columns}
-      options={{
-        filter: true,
-        filterType: "dropdown",
-        responsive: "scroll",
-      }}
-    />
+    <>
+      {itemsGuard.is.loading() && <>loading... </>}
+      {itemsGuard.is.error() && itemsGuard.error.toString()}
+      {itemsGuard.is.loaded() && (
+        <MUIDataTable
+          title={"活动列表"}
+          data={activityList}
+          columns={columns}
+          options={{
+            filter: true,
+            filterType: "dropdown",
+            responsive: "scroll",
+          }}
+        />
+      )}
+    </>
   );
 };
 

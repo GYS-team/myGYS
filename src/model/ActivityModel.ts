@@ -35,9 +35,9 @@ export const parseToActivity = (data: any): Activity => {
     status: data.is_deleted ? 0 : 1,
     startDate: moment(data.created),
     endDate: moment(data.deleted_at),
-    inititor: data.sua.user.username,
-    inititor_phone: data.sua.user.userphone,
+    inititor: data.sua.name,
+    inititor_phone: data.sua.userphone,
     participant:
-      data.participant == null ? null : data.participant.map(parseToStudent),
+      data.sua.student == null ? null : data.sua.student.map(parseToStudent),
   };
 };

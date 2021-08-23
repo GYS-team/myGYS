@@ -60,7 +60,6 @@ const SignInPage: React.FC = () => {
   const { register, handleSubmit, errors } = useForm<msg>();
   let user = User.useContainer();
   const onSubmit = async (data: msg) => {
-    // alert(JSON.stringify(data));
     try {
       await user.login(data.username, data.password);
     } catch (e) {

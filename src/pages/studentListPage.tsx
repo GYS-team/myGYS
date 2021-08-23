@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  FormControlLabel,
-  Switch,
-} from "@material-ui/core";
+import { Button, ButtonGroup } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -24,7 +18,7 @@ const StudentToList = (
     ];
   });
 
-const StudentListPage: React.FC<any> = (studentList: Student[] = []) => {
+const StudentListPage = (studentList: Student[] = []) => {
   const columns = [
     {
       name: "学生",

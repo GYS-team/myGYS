@@ -13,10 +13,17 @@ import Typography from "@material-ui/core/Typography";
 import MUIDataTable from "mui-datatables";
 import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { ActivityStatus, Activity, activityStatusMsg } from "../model/ActivityModel";
+import {
+  ActivityStatus,
+  Activity,
+  activityStatusMsg,
+  parseToActivity,
+} from "../model/ActivityModel";
 import moment from "moment";
 import ActivityPage from "./ActivitySubmitPage";
 import ActivityListPage from "./ActivityListPage";
+import fetch from "../utils/fetch";
+import { isResponseOk } from "../utils/InternetUtils";
 
 const useStyles2 = makeStyles({
   root: {
@@ -39,7 +46,18 @@ const useStyles2 = makeStyles({
 export const MainPage: React.FC = () => {
   const classes = useStyles2();
   let user = User.useContainer();
-
+  const getData = async () => {
+    const res = await fetch.get("application", {
+      params: { id: user.id },
+    });
+    if (!isResponseOk(res)) {
+      throw Error();
+    }
+    return res.data.map(function (obj: any) {
+      parseToActivity(obj.sua.activity);
+    });
+  };
+  const activityList = getData();
   return (
     <Box>
       <Grid container spacing={2}>
@@ -56,7 +74,7 @@ export const MainPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid item sm={8} xs={12}>
-          <ActivityListPage activityList={testActivity}/>
+          <ActivityListPage activityList={activityList} />
         </Grid>
       </Grid>
     </Box>
