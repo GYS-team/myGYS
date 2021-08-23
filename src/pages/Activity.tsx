@@ -13,9 +13,18 @@ import Typography from "@material-ui/core/Typography";
 import MUIDataTable from "mui-datatables";
 import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { ActivityStatus, Activity, activityStatusMsg } from "../model/activity";
+import {
+  ActivityStatus,
+  Activity,
+  activityStatusMsg,
+  parseToActivity,
+} from "../model/activity";
 import moment from "moment";
 import { Student } from "../model/student";
+import fetch from "../utils/fetch";
+import { AxiosResponse } from "axios";
+import { isResponseOk } from "../utils/utils";
+import { ConsoleWriter } from "istanbul-lib-report";
 
 const useStyles2 = makeStyles({
   root: {
@@ -34,34 +43,22 @@ const useStyles2 = makeStyles({
     marginBottom: 12,
   },
 });
-const testActivity: Activity[] = [
-  {
-    name: "数学节adsfadsfasdfasddfasdfasdfasdf",
-    id: 1,
-    description: "null",
-    status: 1,
-    activityUrl: "/shuxuejie",
-    startDate: moment(),
-    endDate: moment(),
-    inititor: "无",
-    inititor_phone: "12345678901",
-  },
-];
 
-const testActivity2: Activity[] = [
-  {
-    name: "数学节adsfadsfasdfasddfasdfasdfasdf",
-    id: 1,
-    description: "null",
-    status: 1,
-    activityUrl: "/shuxuejie",
-    startDate: moment(),
-    endDate: moment(),
-    inititor: "无",
-    inititor_phone: "12345678901",
-  },
-];
-const showActivityPage: React.FC<any> = (activity: Activity) => {
+const testActivity2: Activity = parseToActivity({
+  name: "数学节adsfadsfasdfasddfasdfasdfasdf",
+  id: 1,
+  description: "null",
+  status: 1,
+  activityUrl: "/shuxuejie",
+  startDate: moment(),
+  endDate: moment(),
+  inititor: "无",
+  inititor_phone: "12345678901",
+});
+
+const showActivityPage: React.FC<any> = (
+  activity: Activity = testActivity2
+) => {
   const columns = [
     "姓名",
     "学号",
@@ -90,7 +87,23 @@ const showActivityPage: React.FC<any> = (activity: Activity) => {
       },
     },
   ];
-
+  const checkActivity = async () => {
+    const res: AxiosResponse<any> = await fetch.put("activity/admin/", {
+      id: activity.id,
+      is_valid: "true",
+    });
+    if (isResponseOk(res)) {
+      console.log(res.data.data);
+    }
+  };
+  const delActivity = async () => {
+    const res: AxiosResponse<any> = await fetch.delete(
+      "activity/admin/?id=" + activity.id.toString()
+    );
+    if (isResponseOk(res)) {
+      console.log(res.data.data);
+    }
+  };
   const data2 =
     activity.participant == null
       ? Array()
@@ -98,16 +111,14 @@ const showActivityPage: React.FC<any> = (activity: Activity) => {
           (stu: Student): string[] =>
             new Array(stu.name, stu.id.toString(), "0", "0")
         );
-  const classes = useStyles2();
   let user = User.useContainer();
-
   return (
     <Box>
       <Grid container spacing={2}>
         <Grid item sm={3} xs={12}>
-          <Card className={classes.root} variant="outlined">
+          <Card variant="outlined">
             <CardContent>
-              <Typography className={classes.pos} variant="body2" component="p">
+              <Typography variant="body2" component="p">
                 {activity.name}; <br />
                 {activity.description != null
                   ? activity.description
@@ -131,14 +142,14 @@ const showActivityPage: React.FC<any> = (activity: Activity) => {
                     ? false
                     : true
                 }
-                // onClick={}
+                onClick={checkActivity}
               >
                 通过
               </Button>
               <Button
                 variant="contained"
                 color="secondary"
-                // onClick={}
+                onClick={delActivity}
               >
                 删除
               </Button>

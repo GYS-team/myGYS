@@ -35,12 +35,12 @@ const User = createContainer(() => {
       id: 0,
       name: "",
       score: 0,
-      email: "",
+      phone: "",
     });
   };
 
   const fetchInfo = async () => {
-    const res: AxiosResponse<any> = await fetch.get("/", {
+    const res: AxiosResponse<any> = await fetch.get("student/", {
       params: { id: id },
     });
     if (isResponseOk(res)) {

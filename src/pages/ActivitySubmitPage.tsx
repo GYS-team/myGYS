@@ -25,7 +25,6 @@ const ActivityPage: React.FC = () => {
   const { register, handleSubmit, errors } = useForm<Activity>();
   const handleStartDateChange = (date: Date | null) => setStartDate(date);
   const handleEndDateChange = (date: Date | null) => setEndDate(date);
-  let user = User.useContainer();
 
   const onSubmit = async (data: Activity) => {
     data.startDate = moment(startDate);

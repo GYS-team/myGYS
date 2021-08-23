@@ -15,7 +15,7 @@ import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { ActivityStatus, Activity, activityStatusMsg } from "../model/activity";
 import moment from "moment";
-import ActivityPage from "./ActivitySubmit";
+import ActivityPage from "./ActivitySubmitPage";
 import ActivityListPage from "./ActivityList";
 
 const useStyles2 = makeStyles({
@@ -36,7 +36,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export const OutlinedCard: React.FC = () => {
+export const mainPage: React.FC = () => {
   const classes = useStyles2();
   let user = User.useContainer();
 
@@ -48,7 +48,7 @@ export const OutlinedCard: React.FC = () => {
             <CardContent>
               <Typography className={classes.pos} variant="body2" component="p">
                 学号：{user.id}; <br />
-                邮箱：{user.info.email}; <br />
+                邮箱：{user.info.phone}; <br />
                 名字：{user.info.name}; <br />
                 分数：{user.info.score};<br />
               </Typography>
@@ -77,4 +77,4 @@ const testActivity: Activity[] = [
   },
 ];
 
-export default OutlinedCard;
+export default mainPage;

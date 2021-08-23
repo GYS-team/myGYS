@@ -3,17 +3,21 @@ import { createContainer } from "unstated-next";
 export interface Student {
   id: number;
   name: string;
-  email?: string;
+  phone?: string;
   score: number;
+  number: string;
+  power: number;
+  grade: number;
 }
 
 export const parseToStudent = (data: any): Student => ({
   id: data.id,
-  // TODO: there could be a better design to address this problem,
-  // which allows some items here to be `null` or `undefined`
   name: data.name,
-  email: data.email ? data.email : "",
-  score: data.score,
+  phone: data.email ? data.email : "",
+  score: data.suahours,
+  number: data.number,
+  power: data.power,
+  grade: data.grade,
 });
 
 export const Filter = createContainer(() => {

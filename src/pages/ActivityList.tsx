@@ -11,6 +11,9 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import moment from "moment";
 import { ActivityStatus, Activity, activityStatusMsg } from "../model/activity";
 import User, { UserPower } from "../model/user";
+import { AxiosResponse } from "axios";
+import fetch from "../utils/fetch";
+import { isResponseOk } from "../utils/utils";
 const testActivity: Activity[] = [
   {
     name: "数学节",
@@ -25,6 +28,14 @@ const testActivity: Activity[] = [
   },
 ];
 const ActivityListPage: React.FC<any> = (activityList: Activity[]) => {
+  const fetchActivityList = async () => {
+    const res: AxiosResponse<any> = await fetch.get("application/admin/");
+    if (!isResponseOk(res)) {
+      throw Error();
+    }
+    return res.data.data;
+  };
+
   let user = User.useContainer();
   const columns = [
     {

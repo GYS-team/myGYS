@@ -9,7 +9,7 @@ import MUIDataTable from "mui-datatables";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const StudentList: React.FC = () => {
+const StudentListPage: React.FC = () => {
   const columns = [
     {
       name: "学生",
@@ -95,4 +95,4 @@ const StudentList: React.FC = () => {
   );
 };
 
-export default StudentList;
+export default StudentListPage;

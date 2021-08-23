@@ -26,16 +26,18 @@ export interface Activity {
   participant?: Student[] | null;
 }
 
-export const parseToActivity = (data: any): Activity => ({
-  id: data.id,
-  name: data.name,
-  description: data.description,
-  activityUrl: data.activityUrl,
-  status: data.status,
-  startDate: moment(data.startDate),
-  endDate: moment(data.endDate),
-  inititor: data.inititor,
-  inititor_phone: data.inititor_phone,
-  participant:
-    data.participant == null ? null : data.participant.map(parseToStudent),
-});
+export const parseToActivity = (data: any): Activity => {
+  return {
+    id: data.id,
+    name: data.sua.name,
+    description: data.description,
+    activityUrl: data.activityUrl,
+    status: data.is_deleted ? 0 : 1,
+    startDate: moment(data.created),
+    endDate: moment(data.deleted_at),
+    inititor: data.sua.user.username,
+    inititor_phone: data.sua.user.userphone,
+    participant:
+      data.participant == null ? null : data.participant.map(parseToStudent),
+  };
+};

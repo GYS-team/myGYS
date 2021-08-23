@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Redirect, Switch, Route, Link } from "react-router-dom";
-import User, { LoginStatus } from "../model/user";
-import SignIn from "./signin";
+import User, { LoginStatus } from "./model/user";
+import SignIn from "./pages/signInPage";
 
 import {
   makeStyles,
@@ -13,7 +13,7 @@ import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import fetch from "../utils/fetch";
+import fetch from "./utils/fetch";
 import Typography from "@material-ui/core/Typography";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -27,29 +27,12 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import routes, { RouteName } from "./routes";
+import routes, { RouteName } from "./utils/routes";
 import { Box } from "@material-ui/core";
-import studentList from "./studentList";
-import OutlinedCard from "./mainPage";
-import ActivityPage from "./ActivitySubmit";
-const useStyles2 = makeStyles({
-  root: {
-    minWidth: 275,
-    maxWidth: 500,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
+import studentList from "./pages/studentListPage";
+import OutlinedCard from "./pages/mainPage";
+import ActivityPage from "./pages/ActivitySubmitPage";
+import showActivityPage from './pages/Activity';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -210,9 +193,10 @@ export const PageLayout: React.FC = () => {
           <Route path={routes.activityList.url} component={OutlinedCard} />
           <Route path={routes.studentList.url} component={studentList} />
           <Route path={routes.representList.url} component={ActivityPage} />
-          <Route path={routes.deleteList.url} component={NotFound} />
+          <Route path={routes.deleteList.url} component={showActivityPage} />
           <Route path={routes.deleteRecord.url} component={NotFound} />
           {
+            
             // 怎么给到对应路径去到对应页面
           }
           <Redirect to="/admin" />
