@@ -1,8 +1,8 @@
 import { useState, useReducer, Reducer } from "react";
 import { createContainer } from "unstated-next";
-import { isCookieExist, isResponseOk } from "../utils/utils";
+import { isCookieExist, isResponseOk } from "../utils/InternetUtils";
 import fetch from "../utils/fetch";
-import { Student, parseToStudent } from "./student";
+import { Student, parseToStudent } from "./StudentModel";
 import { AxiosResponse } from "axios";
 export enum LoginStatus {
   notLogged,

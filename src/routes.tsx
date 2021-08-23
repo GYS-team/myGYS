@@ -30,7 +30,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import routes, { RouteName } from "./utils/routes";
 import { Box } from "@material-ui/core";
 import studentList from "./pages/studentListPage";
-import OutlinedCard from "./pages/mainPage";
+import mainPage from "./pages/mainPage";
 import ActivityPage from "./pages/ActivitySubmitPage";
 import showActivityPage from './pages/Activity';
 const drawerWidth = 240;
@@ -106,7 +106,7 @@ const routes2nav = (id: RouteName) => {
   );
 };
 
-export const PageLayout: React.FC = () => {
+export const InnerPageRoutes: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -190,7 +190,7 @@ export const PageLayout: React.FC = () => {
       >
         <div className={classes.drawerHeader} />
         <Switch>
-          <Route path={routes.activityList.url} component={OutlinedCard} />
+          <Route path={routes.activityList.url} component={mainPage} />
           <Route path={routes.studentList.url} component={studentList} />
           <Route path={routes.representList.url} component={ActivityPage} />
           <Route path={routes.deleteList.url} component={showActivityPage} />
@@ -208,7 +208,7 @@ export const PageLayout: React.FC = () => {
   );
 };
 
-const Pages: React.FC = () => {
+const SignInPageRoutes: React.FC = () => {
   let user = User.useContainer();
   const logged: boolean = user.status === LoginStatus.logged;
   return (
@@ -224,7 +224,7 @@ const Pages: React.FC = () => {
           render={() =>
             logged ? (
               <Switch>
-                <Route path="/admin" component={PageLayout} />
+                <Route path="/admin" component={InnerPageRoutes} />
               </Switch>
             ) : (
               <Redirect to={"/login"} />
@@ -236,4 +236,4 @@ const Pages: React.FC = () => {
   );
 };
 
-export default Pages;
+export default SignInPageRoutes;
