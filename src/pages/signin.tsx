@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     justifyContent: "center",
     alignContent: "center",
-  }
+  },
 }));
 
 interface msg {
@@ -59,12 +59,10 @@ const SignIn: React.FC = () => {
   const { register, handleSubmit, errors } = useForm<msg>();
   let user = User.useContainer();
   const onSubmit = async (data: msg) => {
-    alert(JSON.stringify(data));
+    // alert(JSON.stringify(data));
     try {
       await user.login(data.username, data.password);
-      user.status = LoginStatus.logged;
     } catch (e) {
-      user.status = LoginStatus.logged;
       console.log(e);
     }
   };

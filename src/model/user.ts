@@ -17,7 +17,8 @@ export enum UserPower {
 
 const User = createContainer(() => {
   const [status, setStatus] = useState<LoginStatus>(
-    isCookieExist("session_id") ? LoginStatus.logged : LoginStatus.notLogged
+    // isCookieExist("session_id") ? LoginStatus.logged : LoginStatus.notLogged
+    LoginStatus.logged
   );
   const [id, setId] = useState<number>(0);
   const [power, setPower] = useState<UserPower>(UserPower.common);
@@ -54,9 +55,9 @@ const User = createContainer(() => {
   };
 
   const login = async (NetID: string, password: string) => {
-    setStatus(LoginStatus.notLogged);
+    setStatus(LoginStatus.logged);
     try {
-      const res: AxiosResponse<any> = await fetch.post("auth/", {
+      const res: AxiosResponse<any> = await fetch.post("login/", {
         id: NetID,
         password: password,
       });
@@ -78,9 +79,7 @@ const User = createContainer(() => {
   };
   const logout = async () => {
     try {
-      const res: AxiosResponse<any> = await fetch.post("auth/", {
-        status: LoginStatus,
-      }); // TODO: where to logout
+      const res: AxiosResponse<any> = await fetch.post("logout/"); // TODO: where to logout
       if (isResponseOk(res) && res.data.code === 1) {
         setStatus(LoginStatus.notLogged);
         clearInfo();
