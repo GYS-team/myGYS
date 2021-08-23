@@ -1,7 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-} from "@material-ui/core";
+import { Button, ButtonGroup } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React, { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -39,6 +36,8 @@ const ActivityListPage: React.FC<any> = () => {
     const res: AxiosResponse<any> = await fetch.get("application/admin/");
     if (isResponseOk(res)) {
       setActivityList(res.data.data.map(parseToActivity));
+    } else {
+      throw Error();
     }
   };
 

@@ -12,20 +12,20 @@ import {
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { useForm } from "react-hook-form";
-import { Activity, ActivityStatus, parseToActivity } from "../model/ActivityModel";
+import {
+  Activity,
+  ActivityStatus,
+  parseToActivity,
+} from "../model/ActivityModel";
 import moment from "moment";
 import { Button } from "@material-ui/core";
-import User from "../model/UserModel";
+import User, { UserPower } from "../model/UserModel";
 import fetch from "../utils/fetch";
 import { AxiosResponse } from "axios";
 const defaultDate = new Date("2014-08-18");
 const ActivityPage: React.FC = () => {
-  const [startDate, setStartDate] = React.useState<Date | null>(defaultDate);
-  const [endDate, setEndDate] = React.useState<Date | null>(defaultDate);
+  let user = User.useContainer();
   const { register, handleSubmit, errors } = useForm<Activity>();
-  const handleStartDateChange = (date: Date | null) => setStartDate(date);
-  const handleEndDateChange = (date: Date | null) => setEndDate(date);
-
   const onSubmit = async (data: Activity) => {
     data.startDate = moment(startDate);
     data.endDate = moment(endDate);
@@ -35,14 +35,21 @@ const ActivityPage: React.FC = () => {
       detail: data.description,
     });
     if (!isResponseOk(res)) {
-      // if login false.
       throw new Error(
         res.data && res.data.message
           ? res.data.message
           : `${res.status}: ${res.statusText}`
       );
+    } else {
+      console.log(res.data.message);
     }
   };
+
+  // 只是为了处理时间而声明
+  const [startDate, setStartDate] = React.useState<Date | null>(defaultDate);
+  const [endDate, setEndDate] = React.useState<Date | null>(defaultDate);
+  const handleStartDateChange = (date: Date | null) => setStartDate(date);
+  const handleEndDateChange = (date: Date | null) => setEndDate(date);
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -136,7 +143,13 @@ const ActivityPage: React.FC = () => {
                 helperText={errors.inititor_phone && "必须输入活动主办方"}
               />
             </Grid>
-            <Button type="submit" fullWidth variant="contained" color="primary">
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              disabled={user.power == UserPower.common}
+            >
               确认
             </Button>
           </Grid>

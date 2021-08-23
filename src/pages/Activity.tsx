@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  makeStyles,
-  useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
-import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import User, { UserPower } from "../model/UserModel";
@@ -16,7 +10,6 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import {
   ActivityStatus,
   Activity,
-  activityStatusMsg,
   parseToActivity,
 } from "../model/ActivityModel";
 import moment from "moment";
@@ -24,7 +17,6 @@ import { Student } from "../model/StudentModel";
 import fetch from "../utils/fetch";
 import { AxiosResponse } from "axios";
 import { isResponseOk } from "../utils/InternetUtils";
-import { ConsoleWriter } from "istanbul-lib-report";
 
 const useStyles2 = makeStyles({
   root: {
@@ -59,6 +51,33 @@ const testActivity2: Activity = parseToActivity({
 const showActivityPage: React.FC<any> = (
   activity: Activity = testActivity2
 ) => {
+  let user = User.useContainer();
+
+  const checkActivity = async () => {
+    const res: AxiosResponse<any> = await fetch.put("activity/admin/", {
+      id: activity.id,
+      is_valid: "true",
+    });
+    if (isResponseOk(res)) {
+      console.log(res.data.data);
+    }
+  };
+  const delActivity = async () => {
+    const res: AxiosResponse<any> = await fetch.delete("activity/admin/", {
+      params: { id: user.id },
+    });
+    if (isResponseOk(res)) {
+      console.log(res.data.data);
+    }
+  };
+  
+  const studentDataOfActivity =
+    activity.participant == null
+      ? []
+      : activity.participant.map(function (stu: Student) {
+          return [stu.name, stu.id, stu.score, "0"];
+        });
+
   const columns = [
     "姓名",
     "学号",
@@ -87,31 +106,6 @@ const showActivityPage: React.FC<any> = (
       },
     },
   ];
-  const checkActivity = async () => {
-    const res: AxiosResponse<any> = await fetch.put("activity/admin/", {
-      id: activity.id,
-      is_valid: "true",
-    });
-    if (isResponseOk(res)) {
-      console.log(res.data.data);
-    }
-  };
-  const delActivity = async () => {
-    const res: AxiosResponse<any> = await fetch.delete(
-      "activity/admin/?id=" + activity.id.toString()
-    );
-    if (isResponseOk(res)) {
-      console.log(res.data.data);
-    }
-  };
-  const data2 =
-    activity.participant == null
-      ? Array()
-      : activity.participant.map(
-          (stu: Student): string[] =>
-            new Array(stu.name, stu.id.toString(), "0", "0")
-        );
-  let user = User.useContainer();
   return (
     <Box>
       <Grid container spacing={2}>
@@ -160,7 +154,7 @@ const showActivityPage: React.FC<any> = (
           {" "}
           <MUIDataTable
             title={activity.name}
-            data={data2}
+            data={studentDataOfActivity}
             columns={columns}
             options={{
               filter: true,
