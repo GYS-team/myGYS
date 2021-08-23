@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
-import User, { LoginStatus } from "../model/user";
+import User, { LoginStatus } from "../model/UserModel";
 import logo from "../assets/logo.png";
 function Copyright() {
   return (
@@ -55,7 +55,7 @@ interface msg {
   password: string;
 }
 
-const SignIn: React.FC = () => {
+const SignInPage: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm<msg>();
   let user = User.useContainer();
@@ -140,4 +140,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default SignInPage;

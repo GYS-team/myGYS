@@ -1,5 +1,5 @@
 import moment from "moment";
-import { parseToStudent, Student } from "./student";
+import { parseToStudent, Student } from "./StudentModel";
 
 export enum ActivityStatus {
   NotActivated = 0,

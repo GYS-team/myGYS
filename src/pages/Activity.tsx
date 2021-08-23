@@ -8,7 +8,7 @@ import {
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import User, { UserPower } from "../model/user";
+import User, { UserPower } from "../model/UserModel";
 import Typography from "@material-ui/core/Typography";
 import MUIDataTable from "mui-datatables";
 import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
@@ -18,12 +18,12 @@ import {
   Activity,
   activityStatusMsg,
   parseToActivity,
-} from "../model/activity";
+} from "../model/ActivityModel";
 import moment from "moment";
-import { Student } from "../model/student";
+import { Student } from "../model/StudentModel";
 import fetch from "../utils/fetch";
 import { AxiosResponse } from "axios";
-import { isResponseOk } from "../utils/utils";
+import { isResponseOk } from "../utils/InternetUtils";
 import { ConsoleWriter } from "istanbul-lib-report";
 
 const useStyles2 = makeStyles({

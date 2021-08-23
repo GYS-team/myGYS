@@ -8,15 +8,15 @@ import {
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import User from "../model/user";
+import User from "../model/UserModel";
 import Typography from "@material-ui/core/Typography";
 import MUIDataTable from "mui-datatables";
 import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { ActivityStatus, Activity, activityStatusMsg } from "../model/activity";
+import { ActivityStatus, Activity, activityStatusMsg } from "../model/ActivityModel";
 import moment from "moment";
 import ActivityPage from "./ActivitySubmitPage";
-import ActivityListPage from "./ActivityList";
+import ActivityListPage from "./ActivityListPage";
 
 const useStyles2 = makeStyles({
   root: {
@@ -36,7 +36,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export const mainPage: React.FC = () => {
+export const MainPage: React.FC = () => {
   const classes = useStyles2();
   let user = User.useContainer();
 
@@ -77,4 +77,4 @@ const testActivity: Activity[] = [
   },
 ];
 
-export default mainPage;
+export default MainPage;

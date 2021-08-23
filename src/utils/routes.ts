@@ -12,7 +12,7 @@ export type RouteName =
 
 export type RouteConfig = Record<RouteName, SingleRoute>;
 
-const routes: RouteConfig = {
+export const routes: RouteConfig = {
   studentList: {
     url: "/admin/studentList",
     name: "学生列表",

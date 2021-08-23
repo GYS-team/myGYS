@@ -9,11 +9,11 @@ import MUIDataTable from "mui-datatables";
 import React from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import moment from "moment";
-import { ActivityStatus, Activity, activityStatusMsg } from "../model/activity";
-import User, { UserPower } from "../model/user";
+import { ActivityStatus, Activity, activityStatusMsg } from "../model/ActivityModel";
+import User, { UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
-import { isResponseOk } from "../utils/utils";
+import { isResponseOk } from "../utils/InternetUtils";
 const testActivity: Activity[] = [
   {
     name: "数学节",

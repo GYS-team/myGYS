@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Redirect, Switch, Route, Link } from "react-router-dom";
-import User, { LoginStatus } from "./model/user";
-import SignIn from "./pages/signInPage";
+import clsx from "clsx";
 
 import {
   makeStyles,
@@ -9,7 +8,6 @@ import {
   Theme,
   createStyles,
 } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -27,12 +25,16 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import routes, { RouteName } from "./utils/routes";
 import { Box } from "@material-ui/core";
+
+import User, { LoginStatus } from "./model/UserModel";
+import { routes, RouteName } from "./utils/routes";
+import SignInPage from "./pages/signInPage";
 import studentList from "./pages/studentListPage";
-import mainPage from "./pages/mainPage";
+import MainPage from "./pages/mainPage";
 import ActivityPage from "./pages/ActivitySubmitPage";
-import showActivityPage from './pages/Activity';
+import showActivityPage from "./pages/Activity";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -190,13 +192,12 @@ export const InnerPageRoutes: React.FC = () => {
       >
         <div className={classes.drawerHeader} />
         <Switch>
-          <Route path={routes.activityList.url} component={mainPage} />
+          <Route path={routes.activityList.url} component={MainPage} />
           <Route path={routes.studentList.url} component={studentList} />
           <Route path={routes.representList.url} component={ActivityPage} />
           <Route path={routes.deleteList.url} component={showActivityPage} />
           <Route path={routes.deleteRecord.url} component={NotFound} />
           {
-            
             // 怎么给到对应路径去到对应页面
           }
           <Redirect to="/admin" />
@@ -218,7 +219,7 @@ const SignInPageRoutes: React.FC = () => {
         <Route
           exact
           path="/login"
-          render={() => (!logged ? <SignIn /> : <Redirect to="/admin" />)}
+          render={() => (!logged ? <SignInPage /> : <Redirect to="/admin" />)}
         />
         <Route
           render={() =>

@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { isCookieExist, isResponseOk } from "../utils/utils";
+import { isCookieExist, isResponseOk } from "../utils/InternetUtils";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import {
@@ -12,10 +12,10 @@ import {
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { useForm } from "react-hook-form";
-import { Activity, ActivityStatus, parseToActivity } from "../model/activity";
+import { Activity, ActivityStatus, parseToActivity } from "../model/ActivityModel";
 import moment from "moment";
 import { Button } from "@material-ui/core";
-import User from "../model/user";
+import User from "../model/UserModel";
 import fetch from "../utils/fetch";
 import { AxiosResponse } from "axios";
 const defaultDate = new Date("2014-08-18");
@@ -30,8 +30,6 @@ const ActivityPage: React.FC = () => {
     data.startDate = moment(startDate);
     data.endDate = moment(endDate);
     data.status = 0;
-    alert(JSON.stringify(data));
-    // TODO: where to submit
     const res: AxiosResponse<any> = await fetch.post("activity/admin", {
       title: data.name,
       detail: data.description,

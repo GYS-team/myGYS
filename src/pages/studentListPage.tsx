@@ -8,8 +8,23 @@ import {
 import MUIDataTable from "mui-datatables";
 import React from "react";
 import { Link } from "react-router-dom";
+import { Student } from "../model/StudentModel";
 
-const StudentListPage: React.FC = () => {
+const StudentToList = (
+  studentList: Student[]
+): (number | string | undefined)[][] =>
+  studentList.map(function (student: Student) {
+    return [
+      student.name,
+      student.id,
+      student.grade,
+      student.score,
+      student.phone,
+      "x",
+    ];
+  });
+
+const StudentListPage: React.FC<any> = (studentList: Student[] = []) => {
   const columns = [
     {
       name: "学生",
@@ -50,7 +65,7 @@ const StudentListPage: React.FC = () => {
       sort: true,
     },
     {
-      name: "电子邮箱",
+      name: "电话",
       options: {
         filter: false,
         sort: false,
@@ -76,10 +91,7 @@ const StudentListPage: React.FC = () => {
       },
     },
   ];
-  const data = [
-    ["卢皓斌", 19337077, "2019级1班", 0, "luhb5@mail2.sysu.edu.cn", "aaa"],
-    ["测试", 12345678, "2019级2班", 30, "test.cn", "bbb"],
-  ];
+  const data = StudentToList(studentList);
   const options = {
     filter: true,
     filterType: "dropdown",
