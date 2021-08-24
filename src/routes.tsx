@@ -29,9 +29,9 @@ import { Box } from "@material-ui/core";
 
 import User, { LoginStatus } from "./model/UserModel";
 import { routes, RouteName } from "./utils/routes";
-import SignInPage from "./pages/signInPage";
-import studentList from "./pages/studentListPage";
-import MainPage from "./pages/mainPage";
+import SignInPage from "./pages/SignInPage";
+import studentList from "./pages/StudentListPage";
+import MainPage from "./pages/MainPage";
 import ActivityPage from "./pages/ActivitySubmitPage";
 import showActivityPage from "./pages/Activity";
 

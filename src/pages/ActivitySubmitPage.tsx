@@ -3,8 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { isCookieExist, isResponseOk } from "../utils/InternetUtils";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -12,11 +10,7 @@ import {
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { useForm } from "react-hook-form";
-import {
-  Activity,
-  ActivityStatus,
-  parseToActivity,
-} from "../model/ActivityModel";
+import { Activity } from "../model/ActivityModel";
 import moment from "moment";
 import { Button } from "@material-ui/core";
 import User, { UserPower } from "../model/UserModel";
@@ -26,7 +20,9 @@ const defaultDate = new Date("2014-08-18");
 const ActivityPage: React.FC = () => {
   let user = User.useContainer();
   const { register, handleSubmit, errors } = useForm<Activity>();
+
   const onSubmit = async (data: Activity) => {
+    // 提交活动申请函数
     data.startDate = moment(startDate);
     data.endDate = moment(endDate);
     data.status = 0;
@@ -140,7 +136,7 @@ const ActivityPage: React.FC = () => {
                 label="联系方式"
                 fullWidth
                 error={errors.inititor_phone && true}
-                helperText={errors.inititor_phone && "必须输入活动主办方"}
+                helperText={errors.inititor_phone && "必须输入活动主办方手机"}
               />
             </Grid>
             <Button

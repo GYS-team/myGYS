@@ -3,16 +3,15 @@ import MUIDataTable from "mui-datatables";
 import React, { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import moment from "moment";
-import {
-  ActivityStatus,
-  Activity,
-  activityStatusMsg,
-  parseToActivity,
-} from "../model/ActivityModel";
+import { Activity, parseToActivity } from "../model/ActivityModel";
 import User, { UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
-import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
+import {
+  checkActivity,
+  isResponseOk,
+  useLoadGuard,
+} from "../utils/InternetUtils";
 const testActivity: Activity[] = [
   {
     name: "数学节",
@@ -29,7 +28,6 @@ const testActivity: Activity[] = [
 const ActivityListPage: React.FC<any> = () => {
   let user = User.useContainer();
   const [activityList, setActivityList] = useState<Activity[]>([]);
-  const itemsGuard = useLoadGuard();
 
   const fetchActivityList = async () => {
     // 从数据库读取活动列表数据
@@ -49,7 +47,13 @@ const ActivityListPage: React.FC<any> = () => {
         sort: false,
       },
     },
-    "状态",
+    {
+      name: "状态",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
     {
       name: "起始时间",
       options: {
@@ -57,7 +61,13 @@ const ActivityListPage: React.FC<any> = () => {
         sort: true,
       },
     },
-    "分数",
+    {
+      name: "分数",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
     {
       name: "操作",
       options: {
@@ -73,7 +83,7 @@ const ActivityListPage: React.FC<any> = () => {
                 详情
               </Button>
               <Button
-                // onClick={setActivity}
+                // onClick={checkActivity(activity)}
                 disabled={user.power == UserPower.admin}
               >
                 通过
@@ -90,18 +100,21 @@ const ActivityListPage: React.FC<any> = () => {
       },
     },
   ];
-  // let activity = activityList;
-  // //TODO： 报错 问题不得而知 testActivity成立，但是activityList不成立， 类型相同
-  // const data2 = testActivity.map(
-  //   (act: Activity): string[] =>
-  //     new Array(
-  //       act.name,
-  //       activityStatusMsg(act.status),
-  //       act.startDate.format("YYYY-MM-DD"),
-  //       "30",
-  //       act.activityUrl
-  //     )
-  // );
+  const options = {
+    filter: true,
+    filterType: "dropdown",
+    responsive: "scroll",
+  };
+  const activityToList = activityList.map(function (activity: Activity) {
+    return [
+      activity.name,
+      activity.status,
+      activity.startDate,
+      "0",
+      activity.activityUrl,
+    ];
+  });
+  const itemsGuard = useLoadGuard();
   itemsGuard.guard(fetchActivityList);
   return (
     <>
@@ -110,13 +123,9 @@ const ActivityListPage: React.FC<any> = () => {
       {itemsGuard.is.loaded() && (
         <MUIDataTable
           title={"活动列表"}
-          data={activityList}
+          data={activityToList}
           columns={columns}
-          options={{
-            filter: true,
-            filterType: "dropdown",
-            responsive: "scroll",
-          }}
+          options={options}
         />
       )}
     </>

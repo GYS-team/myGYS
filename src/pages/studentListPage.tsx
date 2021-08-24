@@ -1,12 +1,13 @@
 import { Button, ButtonGroup } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Student } from "../model/StudentModel";
+import { parseToStudent, Student } from "../model/StudentModel";
+import fetch from "../utils/fetch";
+import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
 
-const StudentToList = (
-  studentList: Student[]
-): (number | string | undefined)[][] =>
+const StudentToList = (studentList: Student[]) =>
   studentList.map(function (student: Student) {
     return [
       student.name,
@@ -14,11 +15,21 @@ const StudentToList = (
       student.grade,
       student.score,
       student.phone,
-      "x",
+      "",
     ];
   });
 
-const StudentListPage = (studentList: Student[] = []) => {
+const StudentListPage = () => {
+  const [studentList, setStudentList] = useState<Student[]>([]);
+
+  const fetchStudentList = async () => {
+    const res = await fetch.get("/unknown");
+    // TODO: where to fetch info
+    if (isResponseOk(res)) {
+      setStudentList(res.data.data.map(parseToStudent));
+    }
+  };
+
   const columns = [
     {
       name: "学生",
@@ -85,19 +96,26 @@ const StudentListPage = (studentList: Student[] = []) => {
       },
     },
   ];
-  const data = StudentToList(studentList);
   const options = {
     filter: true,
     filterType: "dropdown",
     responsive: "scroll",
   };
+  const itemsGuard = useLoadGuard();
+  itemsGuard.guard(fetchStudentList);
   return (
-    <MUIDataTable
-      title={"学生列表"}
-      data={data}
-      columns={columns}
-      options={options}
-    />
+    <>
+      {itemsGuard.is.loading() && <>loading...</>}
+      {itemsGuard.is.error() && itemsGuard.error.toString()}
+      {itemsGuard.is.loaded() && (
+        <MUIDataTable
+          title={"学生列表"}
+          data={StudentToList(studentList)}
+          columns={columns}
+          options={options}
+        />
+      )}
+    </>
   );
 };
 

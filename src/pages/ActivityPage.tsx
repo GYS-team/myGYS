@@ -16,7 +16,7 @@ import moment from "moment";
 import { Student } from "../model/StudentModel";
 import fetch from "../utils/fetch";
 import { AxiosResponse } from "axios";
-import { isResponseOk } from "../utils/InternetUtils";
+import { isResponseOk, checkActivity, delActivity } from "../utils/InternetUtils";
 
 const useStyles2 = makeStyles({
   root: {
@@ -37,15 +37,35 @@ const useStyles2 = makeStyles({
 });
 
 const testActivity2: Activity = parseToActivity({
-  name: "数学节adsfadsfasdfasddfasdfasdfasdf",
-  id: 1,
-  description: "null",
-  status: 1,
-  activityUrl: "/shuxuejie",
-  startDate: moment(),
-  endDate: moment(),
-  inititor: "无",
-  inititor_phone: "12345678901",
+  id: 2,
+  proof: {
+    id: 2,
+    is_deleted: false,
+    deleted_at: "20:42:50.450904",
+    created: "2021-07-20T20:42:50.450904+08:00",
+    is_offline: true,
+    proof_file: null,
+    owner: 3,
+  },
+  sua: {
+    student: {
+      user: {
+        username: "19337003",
+        id: 3,
+      },
+      name: "dd",
+      id: 3,
+    },
+    suahours: 100,
+  },
+  is_deleted: false,
+  deleted_at: "20:42:50.460189",
+  created: "2021-07-20T20:42:50.460189+08:00",
+  contact: "13612687802",
+  is_checked: true,
+  status: 0,
+  feedback: "",
+  owner: 3,
 });
 
 const showActivityPage: React.FC<any> = (
@@ -53,24 +73,6 @@ const showActivityPage: React.FC<any> = (
 ) => {
   let user = User.useContainer();
 
-  const checkActivity = async () => {
-    const res: AxiosResponse<any> = await fetch.put("activity/admin/", {
-      id: activity.id,
-      is_valid: "true",
-    });
-    if (isResponseOk(res)) {
-      console.log(res.data.data);
-    }
-  };
-  const delActivity = async () => {
-    const res: AxiosResponse<any> = await fetch.delete("activity/admin/", {
-      params: { id: user.id },
-    });
-    if (isResponseOk(res)) {
-      console.log(res.data.data);
-    }
-  };
-  
   const studentDataOfActivity =
     activity.participant == null
       ? []
@@ -123,7 +125,7 @@ const showActivityPage: React.FC<any> = (
                 发起人/发起单位：{activity.inititor};<br />
                 联系方式：{activity.inititor_phone};<br />
                 是否通过：
-                {activity.status == ActivityStatus.Activated
+                {activity.status === ActivityStatus.Activated
                   ? "已通过"
                   : "未通过"}
                 <br />
@@ -131,19 +133,19 @@ const showActivityPage: React.FC<any> = (
               <Button
                 variant="contained"
                 disabled={
-                  user.power == UserPower.admin &&
-                  activity.status == ActivityStatus.NotActivated
+                  user.power === UserPower.admin &&
+                  activity.status === ActivityStatus.NotActivated
                     ? false
                     : true
                 }
-                onClick={checkActivity}
+                onClick={() => {checkActivity(activity)}}
               >
                 通过
               </Button>
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={delActivity}
+                onClick={() => {delActivity(activity)}}
               >
                 删除
               </Button>

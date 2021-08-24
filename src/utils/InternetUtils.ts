@@ -1,6 +1,8 @@
 import Cookies from "js-cookie";
 import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
+import fetch from "./fetch";
+import { Activity } from "../model/ActivityModel";
 
 export const isCookieExist = (key: string): boolean => {
   if (Cookies.get(key) == null) {
@@ -72,4 +74,22 @@ export const useLoadGuard = (retryTimes: number = 0) => {
       error: () => status === LoadStatus.error,
     },
   };
+};
+
+export const checkActivity = async (activity: Activity) => {
+  const res: AxiosResponse<any> = await fetch.put("activity/admin/", {
+    id: activity.id,
+    is_valid: "true",
+  });
+  if (isResponseOk(res)) {
+    console.log(res.data.data);
+  }
+};
+export const delActivity = async (activity: Activity) => {
+  const res: AxiosResponse<any> = await fetch.delete("activity/admin/", {
+    params: { id: activity.id },
+  });
+  if (isResponseOk(res)) {
+    console.log(res.data.data);
+  }
 };
