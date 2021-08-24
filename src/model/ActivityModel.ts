@@ -22,7 +22,7 @@ export interface Activity {
   startDate: moment.Moment;
   endDate: moment.Moment;
   inititor: string;
-  inititor_phone: string;
+  inititor_phone?: string;
   participant?: Student[] | null;
 }
 
@@ -32,12 +32,13 @@ export const parseToActivity = (data: any): Activity => {
     name: data.sua.name,
     description: data.description,
     activityUrl: data.activityUrl,
-    status: data.is_deleted ? 0 : 1,
+    status: data.is_checked ? 1 : 0,
     startDate: moment(data.created),
     endDate: moment(data.deleted_at),
     inititor: data.sua.name,
     inititor_phone: data.sua.userphone,
     participant:
-      data.sua.student == null ? null : data.sua.student.map(parseToStudent),
+      // data.sua.student == null ? null : data.sua.student.map(parseToStudent),
+      []
   };
 };

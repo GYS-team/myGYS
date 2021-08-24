@@ -33,7 +33,7 @@ import SignInPage from "./pages/SignInPage";
 import studentList from "./pages/StudentListPage";
 import MainPage from "./pages/MainPage";
 import ActivityPage from "./pages/ActivitySubmitPage";
-import showActivityPage from "./pages/Activity";
+import showActivityPage from "./pages/ActivityPage";
 
 const drawerWidth = 240;
 
