@@ -12,11 +12,8 @@ import {
   Activity,
   parseToActivity,
 } from "../model/ActivityModel";
-import moment from "moment";
 import { Student } from "../model/StudentModel";
-import fetch from "../utils/fetch";
-import { AxiosResponse } from "axios";
-import { isResponseOk, checkActivity, delActivity } from "../utils/InternetUtils";
+import { checkActivity, delActivity } from "../utils/InternetUtils";
 
 const useStyles2 = makeStyles({
   root: {

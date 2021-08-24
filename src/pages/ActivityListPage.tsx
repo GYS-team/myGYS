@@ -77,19 +77,6 @@ const testData = {
   ],
 };
 const testActivity2 = testData.data.map(parseToActivity);
-const testActivity: Activity[] = [
-  {
-    name: "数学节",
-    id: 1,
-    description: "null",
-    status: 1,
-    activityUrl: "/shuxuejie",
-    startDate: moment(),
-    endDate: moment(),
-    inititor: "无",
-    inititor_phone: "12345678901",
-  },
-];
 const ActivityListPage: React.FC<any> = () => {
   let user = User.useContainer();
   const [activityList, setActivityList] = useState<Activity[]>([]);
