@@ -15,7 +15,7 @@ export enum UserPower {
   admin,
 }
 
-const User = createContainer(() => {
+export const User = createContainer(() => {
   const [status, setStatus] = useState<LoginStatus>(
     // isCookieExist("session_id") ? LoginStatus.logged : LoginStatus.notLogged
     LoginStatus.logged

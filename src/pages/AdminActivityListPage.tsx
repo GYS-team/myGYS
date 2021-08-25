@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React, { useState } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Activity, parseToActivity } from "../model/ActivityModel";
 import User, { UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
