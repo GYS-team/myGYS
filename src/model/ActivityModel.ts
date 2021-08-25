@@ -29,7 +29,7 @@ export interface Activity {
 export const parseToActivity = (data: any): Activity => {
   return {
     id: data.id,
-    name: data.sua.name,
+    name: data.sua.student.name,
     description: data.description,
     activityUrl: data.activityUrl,
     status: data.is_checked ? 1 : 0,

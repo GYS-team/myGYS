@@ -15,7 +15,7 @@ import {
   parseToActivity,
 } from "../model/ActivityModel";
 import moment from "moment";
-import ActivityListPage from "./ActivityListPage";
+import ActivityListPage from "./AdminActivityListPage";
 import cx from "clsx";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";

@@ -34,6 +34,9 @@ import studentList from "./pages/StudentListPage";
 import MainPage from "./pages/MainPage";
 import ActivityPage from "./pages/ActivitySubmitPage";
 import showActivityPage from "./pages/ActivityPage";
+import ListDividers from "./pages/StudentCheckApplicationPage";
+import ApplicationCheck from "./pages/StudentCheckApplicationPage";
+import { testApplication } from "./model/ApplicationModel";
 
 const drawerWidth = 240;
 
@@ -196,7 +199,10 @@ export const InnerPageRoutes: React.FC = () => {
           <Route path={routes.studentList.url} component={studentList} />
           <Route path={routes.representList.url} component={ActivityPage} />
           <Route path={routes.deleteList.url} component={showActivityPage} />
-          <Route path={routes.deleteRecord.url} component={NotFound} />
+          <Route
+            path={routes.deleteRecord.url}
+            render={() => <ApplicationCheck application={testApplication} />}
+          />
           {
             // 怎么给到对应路径去到对应页面
           }
