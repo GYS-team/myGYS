@@ -4,8 +4,6 @@ import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import User from "../model/UserModel";
-import Typography from "@material-ui/core/Typography";
-import MUIDataTable from "mui-datatables";
 import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import {
@@ -22,6 +20,7 @@ import Divider from "@material-ui/core/Divider";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import { useGutterBorderedGridStyles } from "@mui-treasury/styles/grid/gutterBordered";
 import { Student } from "../model/StudentModel";
+import ApplicationList from "../components/ApplicationList";
 
 const useStyles2 = makeStyles({
   root: {
@@ -80,37 +79,6 @@ const useStyles = makeStyles(({ palette }) => ({
   },
 }));
 
-export const ProfileCardDemo = React.memo(function ProfileCard(
-  student: Student
-) {
-  const styles = useStyles();
-  const shadowStyles = useFadedShadowStyles();
-  const borderedGridStyles = useGutterBorderedGridStyles({
-    borderColor: "rgba(0, 0, 0, 0.08)",
-    height: "50%",
-  });
-  return (
-    <Card className={cx(styles.card, shadowStyles.root)}>
-      <CardContent>
-        <Avatar className={styles.avatar} src={"https://i.pravatar.cc/300"} />
-        <h3 className={styles.heading}>{student.name}</h3>
-        <span className={styles.subheader}>{student.number}</span>
-      </CardContent>
-      <Divider light />
-      <Box display={"flex"}>
-        <Box p={2} flex={"auto"} className={borderedGridStyles.item}>
-          <p className={styles.statLabel}>公益时</p>
-          <p className={styles.statValue}>{student.score}</p>
-        </Box>
-        <Box p={2} flex={"auto"} className={borderedGridStyles.item}>
-          <p className={styles.statLabel}>年级</p>
-          <p className={styles.statValue}>{student.grade}</p>
-        </Box>
-      </Box>
-    </Card>
-  );
-});
-
 export const MainPage: React.FC = () => {
   const styles = useStyles();
   const shadowStyles = useFadedShadowStyles();
@@ -146,25 +114,13 @@ export const MainPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid item sm={8} xs={12}>
-          <ActivityListPage />
+          <ApplicationList />
         </Grid>
       </Grid>
     </Box>
   );
 };
 
-const testActivity: Activity[] = [
-  {
-    name: "数学节adsfadsfasdfasddfasdfasdfasdf",
-    id: 1,
-    description: "null",
-    status: 1,
-    activityUrl: "/shuxuejie",
-    startDate: moment(),
-    endDate: moment(),
-    inititor: "无",
-    inititor_phone: "12345678901",
-  },
-];
+
 
 export default MainPage;

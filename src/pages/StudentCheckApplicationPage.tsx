@@ -84,7 +84,7 @@ const ApplicationCheck: React.FC<{ application: Application }> = ({
           }
         >
           <ListItem button>
-            {application.is_checked ? "通过" : "不通过"}
+            {application.isChecked ? "通过" : "不通过"}
           </ListItem>
         </List>
       </Grid>{" "}

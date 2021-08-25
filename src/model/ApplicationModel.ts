@@ -5,21 +5,29 @@ export interface Application {
   activityDescription?: string;
   suahours: number;
   contact: number;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
   isOffline: boolean;
-  is_checked: boolean;
+  isChecked: boolean;
   feedback: string;
 }
+
+export const parseToApplication = (data: any): Application => {
+  return {
+    activityName: data.activity.title,
+    activityDescription: data.activity.detail,
+    contact: data.activity.contact,
+    suahours: data.suahours,
+    isOffline: data.isOffline,
+    isChecked: data.isChecked,
+    feedback: data.feedback,
+  };
+};
 
 export const testApplication: Application = {
   activityName: "activityName",
   activityDescription: "activityDescription",
   suahours: 30,
   contact: 13415476688,
-  startDate: moment(),
-  endDate: moment(),
   isOffline: true,
-  is_checked: true,
+  isChecked: true,
   feedback: "符合",
 };

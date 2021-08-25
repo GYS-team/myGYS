@@ -2,34 +2,26 @@ import { Button, ButtonGroup } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React, { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
+import moment from "moment";
 import { Activity, parseToActivity } from "../model/ActivityModel";
 import User, { UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
-const ActivityListPage: React.FC = () => {
-  let user = User.useContainer();
-  const [activityList, setActivityList] = useState<Activity[]>([]);
+import { Application, parseToApplication } from "../model/ApplicationModel";
+const ApplicationList: React.FC<any> = () => {
+  const [applicationList, setApplicationList] = useState<Application[]>([]);
 
-  const fetchActivityList = async () => {
+  const fetchApplicationList = async () => {
     // 从数据库读取活动列表数据
-    const res: AxiosResponse<any> = await fetch.get("application/admin/");
+    const res: AxiosResponse<any> = await fetch.get("index/");
     if (isResponseOk(res)) {
-      setActivityList(res.data.data.map(parseToActivity));
+      setApplicationList(res.data.data.map(parseToApplication));
     } else {
       throw Error();
     }
   };
 
-  const activityToData = (activity: Activity) => {
-    return [
-      activity.name,
-      activity.status,
-      activity.startDate,
-      "0",
-      activity.activityUrl,
-    ];
-  };
   const columns = [
     {
       name: "活动",
@@ -39,21 +31,21 @@ const ActivityListPage: React.FC = () => {
       },
     },
     {
-      name: "状态",
+      name: "联系方式",
       options: {
         filter: true,
         sort: true,
       },
     },
     {
-      name: "起始时间",
+      name: "申请公益时数",
       options: {
         filter: false,
         sort: true,
       },
     },
     {
-      name: "分数",
+      name: "审核结果",
       options: {
         filter: true,
         sort: true,
@@ -66,27 +58,14 @@ const ActivityListPage: React.FC = () => {
         sort: false,
         customBodyRender: (value: string, tableMeta: any, updateValue: any) => {
           return (
-            <ButtonGroup
+            <Button
+              component={Link}
+              to={"/activity" + value}
               color="primary"
               aria-label="outlined secondary button group"
             >
-              {}
-              <Button component={Link} to={"/activity" + value}>
-                详情
-              </Button>
-              <Button
-                // onClick={checkActivity(activity)}
-                disabled={user.power == UserPower.admin}
-              >
-                通过
-              </Button>
-              <Button
-                // onClick= {deleteActivity}
-                disabled={user.power == UserPower.admin}
-              >
-                删除
-              </Button>
-            </ButtonGroup>
+              详情
+            </Button>
           );
         },
       },
@@ -97,16 +76,25 @@ const ActivityListPage: React.FC = () => {
     filterType: "dropdown",
     responsive: "scroll",
   };
+  const applicationToList = applicationList.map((application: Application) => {
+    return [
+      application.activityName,
+      application.contact,
+      application.suahours,
+      application.isChecked,
+      "",
+    ];
+  });
   const itemsGuard = useLoadGuard();
-  itemsGuard.guard(fetchActivityList);
+  itemsGuard.guard(fetchApplicationList);
   return (
     <>
       {itemsGuard.is.loading() && <>loading... </>}
       {itemsGuard.is.error() && console.log("error")}
       {itemsGuard.is.loaded() && (
         <MUIDataTable
-          title={"活动列表"}
-          data={activityList.map(activityToData)}
+          title={"申请列表"}
+          data={applicationToList}
           columns={columns}
           options={options}
         />
@@ -115,4 +103,4 @@ const ActivityListPage: React.FC = () => {
   );
 };
 
-export default ActivityListPage;
+export default ApplicationList;

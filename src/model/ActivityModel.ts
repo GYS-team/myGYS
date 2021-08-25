@@ -1,5 +1,5 @@
 import moment from "moment";
-import { parseToStudent, Student } from "./StudentModel";
+import { Student } from "./StudentModel";
 
 export enum ActivityStatus {
   NotActivated = 0,
@@ -39,6 +39,18 @@ export const parseToActivity = (data: any): Activity => {
     inititor_phone: data.sua.userphone,
     participant:
       // data.sua.student == null ? null : data.sua.student.map(parseToStudent),
-      []
+      [],
   };
+};
+
+const testActivity: Activity = {
+  name: "数学节adsfadsfasdfasddfasdfasdfasdf",
+  id: 1,
+  description: "null",
+  status: 1,
+  activityUrl: "/shuxuejie",
+  startDate: moment(),
+  endDate: moment(),
+  inititor: "无",
+  inititor_phone: "12345678901",
 };
