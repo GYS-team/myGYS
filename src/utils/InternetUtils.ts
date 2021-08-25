@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 import fetch from "./fetch";
 import { Activity } from "../model/ActivityModel";
+import { Application } from "../model/ApplicationModel";
 
 export const isCookieExist = (key: string): boolean => {
   if (Cookies.get(key) == null) {
@@ -88,6 +89,26 @@ export const checkActivity = async (activity: Activity) => {
 export const delActivity = async (activity: Activity) => {
   const res: AxiosResponse<any> = await fetch.delete("activity/admin/", {
     params: { id: activity.id },
+  });
+  if (isResponseOk(res)) {
+    console.log(res.data.data);
+  }
+};
+
+export const checkApplication = async (application: Application) => {
+  const res: AxiosResponse<any> = await fetch.put("application/admin/", {
+    id: application.suahours,
+    // TODO
+    is_valid: "true",
+  });
+  if (isResponseOk(res)) {
+    console.log(res.data.data);
+  }
+};
+export const delApplication = async (application: Application) => {
+  const res: AxiosResponse<any> = await fetch.delete("activity/admin/", {
+    params: { id: application.contact },
+    // TODO
   });
   if (isResponseOk(res)) {
     console.log(res.data.data);

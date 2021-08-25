@@ -5,40 +5,12 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import User from "../model/UserModel";
 import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import {
-  ActivityStatus,
-  Activity,
-  activityStatusMsg,
-  parseToActivity,
-} from "../model/ActivityModel";
-import moment from "moment";
-import ActivityListPage from "../components/ActivityList";
 import cx from "clsx";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import { useGutterBorderedGridStyles } from "@mui-treasury/styles/grid/gutterBordered";
-import { Student } from "../model/StudentModel";
 import ApplicationList from "../components/ApplicationList";
-
-const useStyles2 = makeStyles({
-  root: {
-    minWidth: 275,
-    maxWidth: 500,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
 
 const useStyles = makeStyles(({ palette }) => ({
   card: {
