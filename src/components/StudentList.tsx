@@ -7,19 +7,15 @@ import { parseToStudent, Student } from "../model/StudentModel";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
 
-const StudentToList = (studentList: Student[]) =>
-  studentList.map(function (student: Student) {
-    return [
-      student.name,
-      student.id,
-      student.grade,
-      student.score,
-      student.phone,
-      "",
-    ];
-  });
-
-const StudentListPage = () => {
+const studentToData = (student: Student) => [
+  student.name,
+  student.id,
+  student.grade,
+  student.score,
+  student.phone,
+  "",
+];
+const StudentList = () => {
   const [studentList, setStudentList] = useState<Student[]>([]);
 
   const fetchStudentList = async () => {
@@ -101,6 +97,7 @@ const StudentListPage = () => {
     filterType: "dropdown",
     responsive: "scroll",
   };
+
   const itemsGuard = useLoadGuard();
   itemsGuard.guard(fetchStudentList);
   return (
@@ -110,7 +107,7 @@ const StudentListPage = () => {
       {itemsGuard.is.loaded() && (
         <MUIDataTable
           title={"学生列表"}
-          data={StudentToList(studentList)}
+          data={studentList.map(studentToData)}
           columns={columns}
           options={options}
         />
@@ -119,4 +116,4 @@ const StudentListPage = () => {
   );
 };
 
-export default StudentListPage;
+export default StudentList;

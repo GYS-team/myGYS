@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity, parseToActivity } from "../model/ActivityModel";
-import User, { UserPower } from "../model/UserModel";
+import { User, UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";

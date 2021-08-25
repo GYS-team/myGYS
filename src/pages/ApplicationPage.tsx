@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ApplicationCheck: React.FC<{ application: Application }> = ({
+const ApplicationPage: React.FC<{ application: Application }> = ({
   application,
 }) => {
   const classes = useStyles();
@@ -105,4 +105,4 @@ const ApplicationCheck: React.FC<{ application: Application }> = ({
   );
 };
 
-export default ApplicationCheck;
+export default ApplicationPage;
