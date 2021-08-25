@@ -30,12 +30,11 @@ import { Box } from "@material-ui/core";
 import User, { LoginStatus } from "./model/UserModel";
 import { routes, RouteName } from "./utils/routes";
 import SignInPage from "./pages/SignInPage";
-import studentList from "./pages/AdminStudentListPage";
-import MainPage from "./pages/StudentMainPage";
-import ActivityPage from "./pages/AdminActivitySubmitPage";
+import studentList from "./components/StudentList";
+import { MainPage } from "./pages/MainPage";
+import ActivityPage from "./pages/ActivitySubmitPage";
 import showActivityPage from "./pages/ActivityPage";
-import ListDividers from "./pages/StudentCheckApplicationPage";
-import ApplicationCheck from "./pages/StudentCheckApplicationPage";
+import ApplicationPage from "./pages/ApplicationPage";
 import { testApplication } from "./model/ApplicationModel";
 
 const drawerWidth = 240;
@@ -201,7 +200,7 @@ export const InnerPageRoutes: React.FC = () => {
           <Route path={routes.deleteList.url} component={showActivityPage} />
           <Route
             path={routes.deleteRecord.url}
-            render={() => <ApplicationCheck application={testApplication} />}
+            render={() => <ApplicationPage application={testApplication} />}
           />
           {
             // 怎么给到对应路径去到对应页面
