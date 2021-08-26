@@ -8,14 +8,11 @@ import User, { UserPower } from "../model/UserModel";
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Grid,
   ListSubheader,
   Typography,
 } from "@material-ui/core";
 import { Application, testApplication } from "../model/ApplicationModel";
-import { RouteComponentProps } from "react-router-dom";
 import { checkApplication, delApplication } from "../utils/InternetUtils";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,7 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const ApplicationPage: React.FC<{ application: Application }> = ({
   application,
 }) => {
-  const classes = useStyles();
   let user = User.useContainer();
   return (
     <Box>

@@ -6,9 +6,9 @@ export interface SingleRoute {
 export type RouteName =
   | "studentList"
   | "activityList"
-  | "representList"
-  | "deleteList"
-  | "deleteRecord";
+  | "applicationList"
+  | "activitySubmit"
+  | "applicationSubmit";
 
 export type RouteConfig = Record<RouteName, SingleRoute>;
 
@@ -21,17 +21,17 @@ export const routes: RouteConfig = {
     url: "/admin/activityList",
     name: "活动列表",
   },
-  representList: {
-    url: "/admin/representList",
-    name: "申述列表",
+  applicationList: {
+    url: "/admin/applicationList",
+    name: "公益时申请列表",
   },
-  deleteList: {
-    url: "/admin/deleteList",
-    name: "删除列表",
+  activitySubmit: {
+    url: "/admin/activitySubmit",
+    name: "活动申请",
   },
-  deleteRecord: {
-    url: "/admin/deleteRecord",
-    name: "删除记录",
+  applicationSubmit: {
+    url: "/admin/applicationSubmit",
+    name: "公益时申请",
   },
 };
 

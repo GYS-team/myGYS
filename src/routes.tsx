@@ -8,10 +8,6 @@ import {
   Theme,
   createStyles,
 } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import fetch from "./utils/fetch";
 import Typography from "@material-ui/core/Typography";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -31,11 +27,10 @@ import User, { LoginStatus } from "./model/UserModel";
 import { routes, RouteName } from "./utils/routes";
 import SignInPage from "./pages/SignInPage";
 import studentList from "./components/StudentList";
-import { MainPage } from "./pages/MainPage";
-import ActivityPage from "./pages/ActivitySubmitPage";
-import showActivityPage from "./pages/ActivityPage";
-import ApplicationPage from "./pages/ApplicationPage";
-import { testApplication } from "./model/ApplicationModel";
+import ActivitySubmitPage from "./pages/ActivitySubmitPage";
+import ApplicationList from "./components/ApplicationList";
+import ActivityList from "./components/ActivityList";
+import ApplicationSubmitPage from "./pages/ApplicationSubmitPage";
 
 const drawerWidth = 240;
 
@@ -180,9 +175,9 @@ export const InnerPageRoutes: React.FC = () => {
         <Divider />
         <List>
           {routes2nav("activityList")}
-          {routes2nav("deleteList")}
-          {routes2nav("deleteRecord")}
-          {routes2nav("representList")}
+          {routes2nav("activitySubmit")}
+          {routes2nav("applicationSubmit")}
+          {routes2nav("applicationList")}
           {routes2nav("studentList")}
         </List>
         <Divider />
@@ -194,13 +189,19 @@ export const InnerPageRoutes: React.FC = () => {
       >
         <div className={classes.drawerHeader} />
         <Switch>
-          <Route path={routes.activityList.url} component={MainPage} />
+          <Route path={routes.activityList.url} component={ActivityList} />
           <Route path={routes.studentList.url} component={studentList} />
-          <Route path={routes.representList.url} component={ActivityPage} />
-          <Route path={routes.deleteList.url} component={showActivityPage} />
           <Route
-            path={routes.deleteRecord.url}
-            render={() => <ApplicationPage application={testApplication} />}
+            path={routes.applicationList.url}
+            component={ApplicationList}
+          />
+          <Route
+            path={routes.activitySubmit.url}
+            component={ActivitySubmitPage}
+          />
+          <Route
+            path={routes.applicationSubmit.url}
+            component={ApplicationSubmitPage}
           />
           {
             // 怎么给到对应路径去到对应页面

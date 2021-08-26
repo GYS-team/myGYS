@@ -15,6 +15,7 @@ const studentToData = (student: Student) => [
   student.phone,
   "",
 ];
+
 const StudentList = () => {
   const [studentList, setStudentList] = useState<Student[]>([]);
 

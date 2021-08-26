@@ -2,14 +2,19 @@ import { Button, ButtonGroup } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React, { useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import moment from "moment";
-import { Activity, parseToActivity } from "../model/ActivityModel";
-import User, { UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
 import { Application, parseToApplication } from "../model/ApplicationModel";
-const ApplicationList: React.FC<any> = () => {
+const applicationToData = (application: Application) => [
+  application.activityName,
+  application.contact,
+  application.suahours,
+  application.isChecked,
+  "",
+];
+
+const ApplicationList: React.FC = () => {
   const [applicationList, setApplicationList] = useState<Application[]>([]);
 
   const fetchApplicationList = async () => {
@@ -76,15 +81,7 @@ const ApplicationList: React.FC<any> = () => {
     filterType: "dropdown",
     responsive: "scroll",
   };
-  const applicationToList = applicationList.map((application: Application) => {
-    return [
-      application.activityName,
-      application.contact,
-      application.suahours,
-      application.isChecked,
-      "",
-    ];
-  });
+
   const itemsGuard = useLoadGuard();
   itemsGuard.guard(fetchApplicationList);
   return (
@@ -94,7 +91,7 @@ const ApplicationList: React.FC<any> = () => {
       {itemsGuard.is.loaded() && (
         <MUIDataTable
           title={"申请列表"}
-          data={applicationToList}
+          data={applicationList.map(applicationToData)}
           columns={columns}
           options={options}
         />

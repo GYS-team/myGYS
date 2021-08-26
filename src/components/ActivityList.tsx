@@ -7,7 +7,7 @@ import { User, UserPower } from "../model/UserModel";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
-const ActivityListPage: React.FC = () => {
+const ActivityList: React.FC = () => {
   let user = User.useContainer();
   const [activityList, setActivityList] = useState<Activity[]>([]);
 
@@ -115,4 +115,4 @@ const ActivityListPage: React.FC = () => {
   );
 };
 
-export default ActivityListPage;
+export default ActivityList;
