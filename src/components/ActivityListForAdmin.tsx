@@ -13,7 +13,7 @@ const ActivityList: React.FC = () => {
 
   const fetchActivityList = async () => {
     // 从数据库读取活动列表数据
-    const res: AxiosResponse<any> = await fetch.get("application/admin/");
+    const res: AxiosResponse<any> = await fetch.get("activity/admin/");
     if (isResponseOk(res)) {
       setActivityList(res.data.data.map(parseToActivity));
     } else {
@@ -76,13 +76,13 @@ const ActivityList: React.FC = () => {
               </Button>
               <Button
                 // onClick={checkActivity(activity)}
-                disabled={user.power == UserPower.admin}
+                disabled={user.power === UserPower.admin}
               >
                 通过
               </Button>
               <Button
                 // onClick= {deleteActivity}
-                disabled={user.power == UserPower.admin}
+                disabled={user.power === UserPower.admin}
               >
                 删除
               </Button>

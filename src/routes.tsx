@@ -26,10 +26,10 @@ import { Box } from "@material-ui/core";
 import User, { LoginStatus } from "./model/UserModel";
 import { routes, RouteName } from "./utils/routes";
 import SignInPage from "./pages/SignInPage";
-import studentList from "./components/StudentList";
+import studentList from "./components/StudentListForAdmin";
 import ActivitySubmitPage from "./pages/ActivitySubmitPage";
-import ApplicationList from "./components/ApplicationList";
-import ActivityList from "./components/ActivityList";
+import ApplicationListForAdmin from "./components/ApplicationListForAdmin";
+import ActivityList from "./components/ActivityListForAdmin";
 import ApplicationSubmitPage from "./pages/ApplicationSubmitPage";
 
 const drawerWidth = 240;
@@ -193,7 +193,7 @@ export const InnerPageRoutes: React.FC = () => {
           <Route path={routes.studentList.url} component={studentList} />
           <Route
             path={routes.applicationList.url}
-            component={ApplicationList}
+            component={ApplicationListForAdmin}
           />
           <Route
             path={routes.activitySubmit.url}

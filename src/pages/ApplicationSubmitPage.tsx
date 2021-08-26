@@ -2,19 +2,14 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { isCookieExist, isResponseOk } from "../utils/InternetUtils";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { isResponseOk } from "../utils/InternetUtils";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { useForm } from "react-hook-form";
-import { Activity } from "../model/ActivityModel";
-import moment from "moment";
+
 import {
   Button,
-  Checkbox,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -26,13 +21,12 @@ import fetch from "../utils/fetch";
 import { AxiosResponse } from "axios";
 import { Application } from "../model/ApplicationModel";
 import { useState } from "react";
-const defaultDate = new Date("2014-08-18");
-const ActivityPage: React.FC = () => {
+const ApplicationSubmitPage: React.FC = () => {
   let user = User.useContainer();
   const { register, handleSubmit, errors } = useForm<Application>();
   const [isOffline, setIsOffline] = useState<boolean>(true);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsOffline((event.target as HTMLInputElement).value === "isOffline");
+    setIsOffline((event.target as HTMLInputElement).value === "true");
   };
   const onSubmit = async (data: Application) => {
     // 提交活动申请函数
@@ -66,7 +60,7 @@ const ActivityPage: React.FC = () => {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <React.Fragment>
         <Typography variant="h6" gutterBottom>
-          创建活动
+          创建公益时申请
         </Typography>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
@@ -123,7 +117,7 @@ const ActivityPage: React.FC = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControl component="fieldset" name="isOffline" id="isOffline">
-                <FormLabel component="legend">Gender</FormLabel>
+                <FormLabel component="legend">提交方式</FormLabel>
                 <RadioGroup
                   aria-label="isOffline"
                   name="isOffline"
@@ -131,12 +125,12 @@ const ActivityPage: React.FC = () => {
                   onChange={handleChange}
                 >
                   <FormControlLabel
-                    value="isOffline"
+                    value={true}
                     control={<Radio />}
                     label="线下提交"
                   />
                   <FormControlLabel
-                    value="Offline"
+                    value={false}
                     control={<Radio />}
                     label="线上提交"
                     disabled
@@ -149,7 +143,7 @@ const ActivityPage: React.FC = () => {
               fullWidth
               variant="contained"
               color="primary"
-              disabled={user.power == UserPower.common}
+              disabled={user.power === UserPower.common}
             >
               确认
             </Button>
@@ -160,4 +154,4 @@ const ActivityPage: React.FC = () => {
   );
 };
 
-export default ActivityPage;
+export default ApplicationSubmitPage;

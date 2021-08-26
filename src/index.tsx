@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import SignInPageRoutes from "./routes";
 import User from "./model/UserModel";
-import React, { useEffect } from "react";
+import React from "react";
 const App: React.FC = () => {
   return (
     <User.Provider>

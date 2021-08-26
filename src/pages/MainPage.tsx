@@ -10,7 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import { useGutterBorderedGridStyles } from "@mui-treasury/styles/grid/gutterBordered";
-import ApplicationList from "../components/ApplicationList";
+import ApplicationListForStudent from "../components/ApplicationListForAdmin";
 
 const useStyles = makeStyles(({ palette }) => ({
   card: {
@@ -86,7 +86,7 @@ export const MainPage: React.FC = () => {
           </Card>
         </Grid>
         <Grid item sm={8} xs={12}>
-          <ApplicationList />
+          <ApplicationListForStudent />
         </Grid>
       </Grid>
     </Box>

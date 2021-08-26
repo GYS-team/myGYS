@@ -17,7 +17,7 @@ import User, { UserPower } from "../model/UserModel";
 import fetch from "../utils/fetch";
 import { AxiosResponse } from "axios";
 const defaultDate = new Date("2014-08-18");
-const ActivityPage: React.FC = () => {
+const ActivitySubmitPage: React.FC = () => {
   let user = User.useContainer();
   const { register, handleSubmit, errors } = useForm<Activity>();
 
@@ -155,4 +155,4 @@ const ActivityPage: React.FC = () => {
   );
 };
 
-export default ActivityPage;
+export default ActivitySubmitPage;

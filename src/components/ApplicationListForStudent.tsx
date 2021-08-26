@@ -14,7 +14,7 @@ const applicationToData = (application: Application) => [
   "",
 ];
 
-const ApplicationList: React.FC = () => {
+const ApplicationListForStudent: React.FC = () => {
   const [applicationList, setApplicationList] = useState<Application[]>([]);
 
   const fetchApplicationList = async () => {
@@ -100,4 +100,4 @@ const ApplicationList: React.FC = () => {
   );
 };
 
-export default ApplicationList;
+export default ApplicationListForStudent;
