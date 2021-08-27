@@ -13,7 +13,11 @@ const ActivityList: React.FC = () => {
 
   const fetchActivityList = async () => {
     // 从数据库读取活动列表数据
-    const res: AxiosResponse<any> = await fetch.get("activity/admin/");
+    const res: AxiosResponse<any> = await fetch.get("activity/admin/", {
+      headers: {
+        Authorization: user.token,
+      },
+    });
     if (isResponseOk(res)) {
       setActivityList(res.data.data.map(parseToActivity));
     } else {

@@ -26,10 +26,18 @@ const ActivitySubmitPage: React.FC = () => {
     data.startDate = moment(startDate);
     data.endDate = moment(endDate);
     data.status = 0;
-    const res: AxiosResponse<any> = await fetch.post("activity/admin", {
-      title: data.name,
-      detail: data.description,
-    });
+    const res: AxiosResponse<any> = await fetch.post(
+      "activity/admin",
+      {
+        title: data.name,
+        detail: data.description,
+      },
+      {
+        headers: {
+          Authorization: user.token,
+        },
+      }
+    );
     if (!isResponseOk(res)) {
       throw new Error(
         res.data && res.data.message

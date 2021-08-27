@@ -31,21 +31,29 @@ const ApplicationSubmitPage: React.FC = () => {
   const onSubmit = async (data: Application) => {
     // 提交活动申请函数
     data.isOffline = isOffline;
-    const res: AxiosResponse<any> = await fetch.post("application", {
-      proof: {
-        is_offline: true,
-        // is_offline = data.isOffline
-      },
-      sua: {
-        activity: {
-          title: data.activityName,
-          detail: data.activityDescription,
+    const res: AxiosResponse<any> = await fetch.post(
+      "application",
+      {
+        proof: {
+          is_offline: true,
+          // is_offline = data.isOffline
         },
-        suahours: data.suahours,
+        sua: {
+          activity: {
+            title: data.activityName,
+            detail: data.activityDescription,
+          },
+          suahours: data.suahours,
+        },
+        contact: data.contact,
+        is_checked: true,
       },
-      contact: data.contact,
-      is_checked: true,
-    });
+      {
+        headers: {
+          Authorization: user.token,
+        },
+      }
+    );
     if (!isResponseOk(res)) {
       throw new Error(
         res.data && res.data.message

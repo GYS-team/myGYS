@@ -4,6 +4,7 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { parseToStudent, Student } from "../model/StudentModel";
+import User from "../model/UserModel";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
 
@@ -18,9 +19,13 @@ const studentToData = (student: Student) => [
 
 const StudentList = () => {
   const [studentList, setStudentList] = useState<Student[]>([]);
-
+  let user = User.useContainer();
   const fetchStudentList = async () => {
-    const res = await fetch.get("/unknown");
+    const res = await fetch.get("/unknown",         {
+      headers: {
+        Authorization: user.token,
+      },
+    });
     // TODO: where to fetch info
     if (isResponseOk(res)) {
       setStudentList(res.data.data.map(parseToStudent));

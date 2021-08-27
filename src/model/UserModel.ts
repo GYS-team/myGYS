@@ -22,6 +22,7 @@ export const User = createContainer(() => {
   );
   const [id, setId] = useState<number>(0);
   const [power, setPower] = useState<UserPower>(UserPower.common);
+  const [token, setToken] = useState<string>("");
   const [info, infoDispatcher] = useReducer<
     Reducer<Partial<Student>, Partial<Student>>
   >((info, partialInfo) => {
@@ -40,8 +41,10 @@ export const User = createContainer(() => {
   };
 
   const fetchInfo = async () => {
-    const res: AxiosResponse<any> = await fetch.get("student/", {
-      params: { id: id },
+    const res: AxiosResponse<any> = await fetch.get("student/",        {
+      headers: {
+        Authorization: token,
+      },
     });
     if (isResponseOk(res)) {
       const data = res.data.data;
@@ -66,6 +69,7 @@ export const User = createContainer(() => {
         );
       }
       setStatus(LoginStatus.logged);
+      setToken(res.data.data.token);
       fetchInfo();
     } catch (e) {
       console.log(e.response);
@@ -76,7 +80,15 @@ export const User = createContainer(() => {
   };
   const logout = async () => {
     try {
-      const res: AxiosResponse<any> = await fetch.post("logout/"); // TODO: where to logout
+      const res: AxiosResponse<any> = await fetch.post(
+        "logout/",
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       if (isResponseOk(res) && res.data.code === "00") {
         setStatus(LoginStatus.notLogged);
         clearInfo();
@@ -91,6 +103,7 @@ export const User = createContainer(() => {
     power,
     id,
     info,
+    token,
     updateInfo: fetchInfo,
     login,
     logout,

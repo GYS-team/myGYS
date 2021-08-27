@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import fetch from "./fetch";
 import { Activity } from "../model/ActivityModel";
 import { Application } from "../model/ApplicationModel";
+import User from "../model/UserModel";
 
 export const isCookieExist = (key: string): boolean => {
   if (Cookies.get(key) == null) {
@@ -78,17 +79,30 @@ export const useLoadGuard = (retryTimes: number = 0) => {
 };
 
 export const checkActivity = async (activity: Activity) => {
-  const res: AxiosResponse<any> = await fetch.put("activity/admin/", {
-    id: activity.id,
-    is_valid: "true",
-  });
+  let user = User.useContainer();
+  const res: AxiosResponse<any> = await fetch.put(
+    "activity/admin/",
+    {
+      id: activity.id,
+      is_valid: "true",
+    },
+    {
+      headers: {
+        Authorization: user.token,
+      },
+    }
+  );
   if (isResponseOk(res)) {
     console.log(res.data.data);
   }
 };
 export const delActivity = async (activity: Activity) => {
+  let user = User.useContainer();
   const res: AxiosResponse<any> = await fetch.delete("activity/admin/", {
     params: { id: activity.id },
+    headers: {
+      Authorization: user.token,
+    },
   });
   if (isResponseOk(res)) {
     console.log(res.data.data);
@@ -96,19 +110,31 @@ export const delActivity = async (activity: Activity) => {
 };
 
 export const checkApplication = async (application: Application) => {
-  const res: AxiosResponse<any> = await fetch.put("application/admin/", {
-    id: application.suahours,
-    // TODO
-    is_valid: "true",
-  });
+  let user = User.useContainer();
+  const res: AxiosResponse<any> = await fetch.put(
+    "application/admin/",
+    {
+      id: application.suahours,
+      // TODO
+      is_valid: "true",
+    },
+    {
+      headers: {
+        Authorization: user.token,
+      },
+    }
+  );
   if (isResponseOk(res)) {
     console.log(res.data.data);
   }
 };
 export const delApplication = async (application: Application) => {
+  let user = User.useContainer();
   const res: AxiosResponse<any> = await fetch.delete("activity/admin/", {
     params: { id: application.contact },
-    // TODO
+    headers: {
+      Authorization: user.token,
+    },
   });
   if (isResponseOk(res)) {
     console.log(res.data.data);

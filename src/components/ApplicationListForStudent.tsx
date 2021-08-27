@@ -6,6 +6,7 @@ import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
 import { Application, parseToApplication } from "../model/ApplicationModel";
+import User from "../model/UserModel";
 const applicationToData = (application: Application) => [
   application.activityName,
   application.contact,
@@ -16,10 +17,14 @@ const applicationToData = (application: Application) => [
 
 const ApplicationListForStudent: React.FC = () => {
   const [applicationList, setApplicationList] = useState<Application[]>([]);
-
+  let user = User.useContainer();
   const fetchApplicationList = async () => {
     // 从数据库读取活动列表数据
-    const res: AxiosResponse<any> = await fetch.get("index/");
+    const res: AxiosResponse<any> = await fetch.get("index/",        {
+      headers: {
+        Authorization: user.token,
+      },
+    });
     if (isResponseOk(res)) {
       setApplicationList(res.data.data.map(parseToApplication));
     } else {
