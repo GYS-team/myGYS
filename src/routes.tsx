@@ -23,7 +23,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Box } from "@material-ui/core";
 
-import User, { LoginStatus } from "./model/UserModel";
+import User, { LoginStatus, UserPower } from "./model/UserModel";
 import { routes, RouteName } from "./utils/routes";
 import SignInPage from "./pages/SignInPage";
 import studentList from "./components/StudentListForAdmin";
@@ -141,14 +141,6 @@ export const InnerPageRoutes: React.FC = () => {
           <Typography variant="h6" noWrap>
             SYSU-MATH-ZH 公益时平台
           </Typography>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={user.logout}
-            edge="end"
-          >
-            <MenuRoundedIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -174,11 +166,11 @@ export const InnerPageRoutes: React.FC = () => {
         </div>
         <Divider />
         <List>
-          {routes2nav("activityList")}
-          {routes2nav("activitySubmit")}
           {routes2nav("applicationSubmit")}
-          {routes2nav("applicationList")}
-          {routes2nav("studentList")}
+          {user.power == UserPower.admin ? routes2nav("activityList") : ""}
+          {user.power == UserPower.admin ? routes2nav("activitySubmit") : ""}
+          {user.power == UserPower.admin ? routes2nav("applicationList") : ""}
+          {user.power == UserPower.admin ? routes2nav("studentList") : ""}
         </List>
         <Divider />
       </Drawer>

@@ -1,6 +1,6 @@
 import { useState, useReducer, Reducer } from "react";
 import { createContainer } from "unstated-next";
-import { isCookieExist, isResponseOk } from "../utils/InternetUtils";
+import { isResponseOk } from "../utils/InternetUtils";
 import fetch from "../utils/fetch";
 import { Student, parseToStudent } from "./StudentModel";
 import { AxiosResponse } from "axios";
@@ -18,7 +18,7 @@ export enum UserPower {
 export const User = createContainer(() => {
   const [status, setStatus] = useState<LoginStatus>(
     // isCookieExist("session_id") ? LoginStatus.logged : LoginStatus.notLogged
-    LoginStatus.logged
+    LoginStatus.notLogged
   );
   const [id, setId] = useState<number>(0);
   const [power, setPower] = useState<UserPower>(UserPower.common);
@@ -44,13 +44,10 @@ export const User = createContainer(() => {
       params: { id: id },
     });
     if (isResponseOk(res)) {
-      const data = res.data;
+      const data = res.data.data;
       setId(data.id);
       setPower(data.admin ? UserPower.admin : UserPower.common);
-      const student = data.student;
-      if (student != null) {
-        infoDispatcher(parseToStudent(student));
-      }
+      infoDispatcher(parseToStudent(data));
     }
   };
 
@@ -62,7 +59,6 @@ export const User = createContainer(() => {
         password: password,
       });
       if (!isResponseOk(res)) {
-        // if login false.
         throw new Error(
           res.data && res.data.message
             ? res.data.message
@@ -73,14 +69,15 @@ export const User = createContainer(() => {
       fetchInfo();
     } catch (e) {
       console.log(e.response);
-      setStatus(LoginStatus.notLogged);
+      // setStatus(LoginStatus.notLogged);
+      setStatus(LoginStatus.logged); //TODO: test
       throw e;
     }
   };
   const logout = async () => {
     try {
       const res: AxiosResponse<any> = await fetch.post("logout/"); // TODO: where to logout
-      if (isResponseOk(res) && res.data.code === 1) {
+      if (isResponseOk(res) && res.data.code === "00") {
         setStatus(LoginStatus.notLogged);
         clearInfo();
       }
@@ -90,13 +87,10 @@ export const User = createContainer(() => {
   };
 
   return {
-    // states
     status,
     power,
     id,
     info,
-    // actions
-    //login,
     updateInfo: fetchInfo,
     login,
     logout,
