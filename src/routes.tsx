@@ -31,6 +31,7 @@ import ActivitySubmitPage from "./pages/ActivitySubmitPage";
 import ApplicationListForAdmin from "./components/ApplicationListForAdmin";
 import ActivityList from "./components/ActivityListForAdmin";
 import ApplicationSubmitPage from "./pages/ApplicationSubmitPage";
+import { MainPage } from "./pages/MainPage";
 
 const drawerWidth = 240;
 
@@ -165,6 +166,7 @@ export const InnerPageRoutes: React.FC = () => {
         </div>
         <Divider />
         <List>
+          {user.power == UserPower.admin ? "" : routes2nav("mainPage")}
           {routes2nav("applicationSubmit")}
           {user.power == UserPower.admin ? routes2nav("activityList") : ""}
           {user.power == UserPower.admin ? routes2nav("activitySubmit") : ""}
@@ -180,6 +182,7 @@ export const InnerPageRoutes: React.FC = () => {
       >
         <div className={classes.drawerHeader} />
         <Switch>
+          <Route path={routes.mainPage.url} component={MainPage} />
           <Route path={routes.activityList.url} component={ActivityList} />
           <Route path={routes.studentList.url} component={studentList} />
           <Route

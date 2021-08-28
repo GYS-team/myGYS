@@ -21,7 +21,7 @@ export const User = createContainer(() => {
     LoginStatus.notLogged
   );
   const [id, setId] = useState<number>(0);
-  const [power, setPower] = useState<UserPower>(UserPower.common);
+  const [power, setPower] = useState<UserPower>(UserPower.admin);
   const [token, setToken] = useState<string>("");
   const [info, infoDispatcher] = useReducer<
     Reducer<Partial<Student>, Partial<Student>>
@@ -73,7 +73,7 @@ export const User = createContainer(() => {
     } catch (e) {
       console.log(e.response);
       // setStatus(LoginStatus.notLogged);
-      // setStatus(LoginStatus.logged); //TODO: test
+      setStatus(LoginStatus.logged); //TODO: test
       throw e;
     }
   };
