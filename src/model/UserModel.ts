@@ -57,24 +57,24 @@ export const User = createContainer(() => {
   const Login = async (NetID: string, password: string) => {
     setStatus(LoginStatus.logging);
     try {
-      // const res: AxiosResponse<any> = await fetch.post("login/", {
-      //   id: NetID,
-      //   password: password,
-      // });
-      // if (!isResponseOk(res)) {
-      //   throw new Error(
-      //     res.data && res.data.message
-      //       ? res.data.message
-      //       : `${res.status}: ${res.statusText}`
-      //   );
-      // }
-      const res = {
-        data:{
-          data:{
-            token: '123',
-          }
-        }
+      const res: AxiosResponse<any> = await fetch.post("login/", {
+        id: NetID,
+        password: password,
+      });
+      if (!isResponseOk(res)) {
+        throw new Error(
+          res.data && res.data.message
+            ? res.data.message
+            : `${res.status}: ${res.statusText}`
+        );
       }
+      // const res = {
+      //   data:{
+      //     data:{
+      //       token: '123',
+      //     }
+      //   }
+      // }
       setStatus(LoginStatus.logged);
       setToken(res.data.data.token);
     } catch (e) {
