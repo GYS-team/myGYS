@@ -1,4 +1,4 @@
-import { useState, useReducer, Reducer } from "react";
+import { useState, useReducer, Reducer, useEffect } from "react";
 import { createContainer } from "unstated-next";
 import { isResponseOk } from "../utils/InternetUtils";
 import fetch from "../utils/fetch";
@@ -41,9 +41,9 @@ export const User = createContainer(() => {
   };
 
   const fetchInfo = async () => {
-    const res: AxiosResponse<any> = await fetch.get("student/",        {
+    const res: AxiosResponse<any> = await fetch.get("student/", {
       headers: {
-        Authorization: token,
+        Authorization: "Token " + token,
       },
     });
     if (isResponseOk(res)) {
@@ -54,8 +54,8 @@ export const User = createContainer(() => {
     }
   };
 
-  const login = async (NetID: string, password: string) => {
-    setStatus(LoginStatus.logged);
+  const Login = async (NetID: string, password: string) => {
+    setStatus(LoginStatus.logging);
     try {
       const res: AxiosResponse<any> = await fetch.post("login/", {
         id: NetID,
@@ -70,11 +70,10 @@ export const User = createContainer(() => {
       }
       setStatus(LoginStatus.logged);
       setToken(res.data.data.token);
-      fetchInfo();
     } catch (e) {
       console.log(e.response);
       // setStatus(LoginStatus.notLogged);
-      setStatus(LoginStatus.logged); //TODO: test
+      // setStatus(LoginStatus.logged); //TODO: test
       throw e;
     }
   };
@@ -98,6 +97,9 @@ export const User = createContainer(() => {
     }
   };
 
+  useEffect(() => {
+    if (token === "") fetchInfo();
+  }, [token]);
   return {
     status,
     power,
@@ -105,7 +107,7 @@ export const User = createContainer(() => {
     info,
     token,
     updateInfo: fetchInfo,
-    login,
+    login: Login,
     logout,
   };
 });

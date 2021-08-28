@@ -4,6 +4,7 @@ export interface SingleRoute {
 }
 
 export type RouteName =
+  | "mainPage"
   | "studentList"
   | "activityList"
   | "applicationList"
@@ -13,6 +14,10 @@ export type RouteName =
 export type RouteConfig = Record<RouteName, SingleRoute>;
 
 export const routes: RouteConfig = {
+  mainPage: {
+    url: "/admin/mainPage",
+    name: "学生主页",
+  },
   studentList: {
     url: "/admin/studentList",
     name: "学生列表",

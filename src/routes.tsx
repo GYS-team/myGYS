@@ -110,7 +110,6 @@ export const InnerPageRoutes: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   let user = User.useContainer();
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
