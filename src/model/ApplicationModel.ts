@@ -1,5 +1,3 @@
-import moment from "moment";
-
 export interface Application {
   activityName: string;
   activityDescription?: string;

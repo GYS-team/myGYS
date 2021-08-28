@@ -43,7 +43,7 @@ export const User = createContainer(() => {
   const fetchInfo = async () => {
     const res: AxiosResponse<any> = await fetch.get("student/", {
       headers: {
-        Authorization: "Token " + token,
+        Authorization: token,
       },
     });
     if (isResponseOk(res)) {
@@ -58,10 +58,11 @@ export const User = createContainer(() => {
     setStatus(LoginStatus.logging);
     try {
       const res: AxiosResponse<any> = await fetch.post("login/", {
-        id: NetID,
+        username: NetID,
         password: password,
       });
       if (!isResponseOk(res)) {
+        console.log(123);
         throw new Error(
           res.data && res.data.message
             ? res.data.message
@@ -76,11 +77,11 @@ export const User = createContainer(() => {
       //   }
       // }
       setStatus(LoginStatus.logged);
-      setToken(res.data.data.token);
+      setToken("Token " + res.data.data.token);
     } catch (e) {
       console.log(e.response);
-      // setStatus(LoginStatus.notLogged);
-      setStatus(LoginStatus.logged); //TODO: test
+      setStatus(LoginStatus.notLogged);
+      // setStatus(LoginStatus.logged); //TODO: test
       throw e;
     }
   };

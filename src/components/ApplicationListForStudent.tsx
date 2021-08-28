@@ -1,7 +1,7 @@
-import { Button, ButtonGroup } from "@material-ui/core";
+import { Button} from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React, { useState } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { AxiosResponse } from "axios";
 import fetch from "../utils/fetch";
 import { isResponseOk, useLoadGuard } from "../utils/InternetUtils";
@@ -20,11 +20,12 @@ const ApplicationListForStudent: React.FC = () => {
   let user = User.useContainer();
   const fetchApplicationList = async () => {
     // 从数据库读取活动列表数据
-    const res: AxiosResponse<any> = await fetch.get("index/",        {
+    const res: AxiosResponse<any> = await fetch.get("index/", {
       headers: {
         Authorization: user.token,
       },
     });
+
     if (isResponseOk(res)) {
       setApplicationList(res.data.data.map(parseToApplication));
     } else {

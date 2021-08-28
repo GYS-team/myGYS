@@ -28,11 +28,12 @@ const ApplicationSubmitPage: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsOffline((event.target as HTMLInputElement).value === "true");
   };
+  console.log(user.power);
   const onSubmit = async (data: Application) => {
     // 提交活动申请函数
     data.isOffline = isOffline;
     const res: AxiosResponse<any> = await fetch.post(
-      "application",
+      "application/",
       {
         proof: {
           is_offline: true,
@@ -151,7 +152,7 @@ const ApplicationSubmitPage: React.FC = () => {
               fullWidth
               variant="contained"
               color="primary"
-              disabled={user.power === UserPower.common}
+              disabled={user.power !== UserPower.common}
             >
               确认
             </Button>

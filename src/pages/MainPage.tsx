@@ -1,16 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import User from "../model/UserModel";
-import { Box, Button, ButtonGroup, Grid } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import cx from "clsx";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
 import { useGutterBorderedGridStyles } from "@mui-treasury/styles/grid/gutterBordered";
-import ApplicationListForStudent from "../components/ApplicationListForAdmin";
+import ApplicationListForStudent from "../components/ApplicationListForStudent";
 
 const useStyles = makeStyles(({ palette }) => ({
   card: {
@@ -92,7 +91,5 @@ export const MainPage: React.FC = () => {
     </Box>
   );
 };
-
-
 
 export default MainPage;

@@ -20,9 +20,8 @@ export const isCookieExist = (key: string): boolean => {
 export function isResponseOk(res: AxiosResponse): boolean;
 export function isResponseOk(res: number): boolean;
 export function isResponseOk(res: number | AxiosResponse): boolean {
-  let status: number = typeof res === "number" ? res : res.status;
-  // return the HTTP Status Code
-  return Math.floor(status / 100) === 2;
+  if (typeof res === "number") return Math.floor(res / 100) === 2;
+  return Math.floor(res.status / 100) === 2 && res.data.code == "00";
 }
 
 export enum LoadStatus {

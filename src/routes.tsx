@@ -166,12 +166,12 @@ export const InnerPageRoutes: React.FC = () => {
         </div>
         <Divider />
         <List>
-          {user.power == UserPower.admin ? "" : routes2nav("mainPage")}
+          {user.power === UserPower.admin ? "" : routes2nav("mainPage")}
           {routes2nav("applicationSubmit")}
-          {user.power == UserPower.admin ? routes2nav("activityList") : ""}
-          {user.power == UserPower.admin ? routes2nav("activitySubmit") : ""}
-          {user.power == UserPower.admin ? routes2nav("applicationList") : ""}
-          {user.power == UserPower.admin ? routes2nav("studentList") : ""}
+          {user.power === UserPower.admin ? routes2nav("activityList") : ""}
+          {user.power === UserPower.admin ? routes2nav("activitySubmit") : ""}
+          {user.power === UserPower.admin ? routes2nav("applicationList") : ""}
+          {user.power === UserPower.admin ? routes2nav("studentList") : ""}
         </List>
         <Divider />
       </Drawer>
