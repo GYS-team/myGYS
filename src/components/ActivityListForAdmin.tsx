@@ -19,6 +19,7 @@ const ActivityList: React.FC = () => {
       },
     });
     if (isResponseOk(res)) {
+      console.log(res.data.data);
       setActivityList(res.data.data.map(parseToActivity));
     } else {
       throw Error();
@@ -29,7 +30,6 @@ const ActivityList: React.FC = () => {
     return [
       activity.name,
       activity.status,
-      activity.startDate,
       "0",
       activity.activityUrl,
     ];
@@ -46,13 +46,6 @@ const ActivityList: React.FC = () => {
       name: "状态",
       options: {
         filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "起始时间",
-      options: {
-        filter: false,
         sort: true,
       },
     },

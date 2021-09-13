@@ -1,4 +1,5 @@
 export interface Application {
+  id: number;
   activityName: string;
   activityDescription?: string;
   suahours: number;
@@ -10,10 +11,11 @@ export interface Application {
 
 export const parseToApplication = (data: any): Application => {
   return {
-    activityName: data.activity.title,
-    activityDescription: data.activity.detail,
-    contact: data.activity.contact,
-    suahours: data.suahours,
+    id: data.id,
+    activityName: data.sua.activity.title,
+    activityDescription: data.sua.activity.detail,
+    contact: data.contact,
+    suahours: data.sua.suahours,
     isOffline: data.isOffline,
     isChecked: data.isChecked,
     feedback: data.feedback,
@@ -21,6 +23,7 @@ export const parseToApplication = (data: any): Application => {
 };
 
 export const testApplication: Application = {
+  id: 12,
   activityName: "activityName",
   activityDescription: "activityDescription",
   suahours: 30,

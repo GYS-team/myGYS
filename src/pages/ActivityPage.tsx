@@ -15,24 +15,6 @@ import {
 import { Student } from "../model/StudentModel";
 import { checkActivity, delActivity } from "../utils/InternetUtils";
 
-const useStyles2 = makeStyles({
-  root: {
-    minWidth: 275,
-    maxWidth: 500,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
 const testActivity2: Activity = parseToActivity({
   id: 2,
   proof: {
@@ -65,7 +47,7 @@ const testActivity2: Activity = parseToActivity({
   owner: 3,
 });
 
-const showActivityPage: React.FC<any> = (
+const ActivityPage: React.FC<any> = (
   activity: Activity = testActivity2
 ) => {
   let user = User.useContainer();
@@ -167,4 +149,4 @@ const showActivityPage: React.FC<any> = (
   );
 };
 
-export default showActivityPage;
+export default ActivityPage;

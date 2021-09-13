@@ -21,7 +21,7 @@ export interface Activity {
   status: ActivityStatus;
   startDate: moment.Moment;
   endDate: moment.Moment;
-  inititor: string;
+  inititor?: string;
   inititor_phone?: string;
   participant?: Student[] | null;
 }
@@ -29,14 +29,13 @@ export interface Activity {
 export const parseToActivity = (data: any): Activity => {
   return {
     id: data.id,
-    name: data.sua.student.name,
-    description: data.description,
-    activityUrl: data.activityUrl,
-    status: data.is_checked ? 1 : 0,
-    startDate: moment(data.created),
-    endDate: moment(data.deleted_at),
-    inititor: data.sua.name,
-    inititor_phone: data.sua.userphone,
+    name: data.title,
+    description: data.detail,
+    activityUrl:"",
+    status: data.is_valid ? 1 : 0,
+    startDate: moment(),
+    endDate: moment(),
+    inititor: "",
     participant:
       // data.sua.student == null ? null : data.sua.student.map(parseToStudent),
       [],

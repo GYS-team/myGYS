@@ -21,12 +21,11 @@ const StudentList = () => {
   const [studentList, setStudentList] = useState<Student[]>([]);
   let user = User.useContainer();
   const fetchStudentList = async () => {
-    const res = await fetch.get("/unknown",         {
+    const res = await fetch.get("/student/admin",         {
       headers: {
         Authorization: user.token,
       },
     });
-    // TODO: where to fetch info
     if (isResponseOk(res)) {
       setStudentList(res.data.data.map(parseToStudent));
     }

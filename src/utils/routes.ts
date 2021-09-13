@@ -9,7 +9,9 @@ export type RouteName =
   | "activityList"
   | "applicationList"
   | "activitySubmit"
-  | "applicationSubmit";
+  | "applicationSubmit"
+  | "activityPage"
+  | "applicationPage";
 
 export type RouteConfig = Record<RouteName, SingleRoute>;
 
@@ -38,6 +40,14 @@ export const routes: RouteConfig = {
     url: "/admin/applicationSubmit",
     name: "公益时申请",
   },
+  activityPage: {
+    url: "/admin/activityPage/:id",
+    name: "活动详情",
+  },
+  applicationPage: {
+    url: "admin/applicationPage/:id",
+    name: "申请详情",
+  }
 };
 
 export default routes;

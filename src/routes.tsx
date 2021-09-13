@@ -32,6 +32,8 @@ import ApplicationListForAdmin from "./components/ApplicationListForAdmin";
 import ActivityList from "./components/ActivityListForAdmin";
 import ApplicationSubmitPage from "./pages/ApplicationSubmitPage";
 import { MainPage } from "./pages/MainPage";
+import ActivityPage from "./pages/ActivityPage";
+import ApplicationPage from "./pages/ApplicationPage";
 
 const drawerWidth = 240;
 
@@ -196,6 +198,14 @@ export const InnerPageRoutes: React.FC = () => {
           <Route
             path={routes.applicationSubmit.url}
             component={ApplicationSubmitPage}
+          />
+          <Route
+            path={routes.activityPage.url}
+            render={({ match }) => <ActivityPage id={match.params.id} />}
+          />
+          <Route
+            path={routes.applicationPage.url}
+            render={({ match }) => <ApplicationPage id={match.params.id} />}
           />
           {
             // 怎么给到对应路径去到对应页面

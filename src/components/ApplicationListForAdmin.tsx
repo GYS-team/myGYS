@@ -26,10 +26,14 @@ const ApplicationListForAdmin: React.FC = () => {
         Authorization: user.token,
       },
     });
+    console.log(res.data.data);
     if (isResponseOk(res)) {
       setApplicationList(res.data.data.map(parseToApplication));
     } else {
-      throw Error();
+      throw Error(res.data && res.data.message
+        ? res.data.message
+        : `${res.status}: ${res.statusText}`
+    );
     }
   };
 

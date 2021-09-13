@@ -21,7 +21,7 @@ export const User = createContainer(() => {
     LoginStatus.notLogged
   );
   const [id, setId] = useState<number>(0);
-  const [power, setPower] = useState<UserPower>(UserPower.admin);
+  const [power, setPower] = useState<UserPower>(UserPower.common);
   const [token, setToken] = useState<string>("");
   const [info, infoDispatcher] = useReducer<
     Reducer<Partial<Student>, Partial<Student>>
@@ -49,7 +49,7 @@ export const User = createContainer(() => {
     if (isResponseOk(res)) {
       const data = res.data.data;
       setId(data.id);
-      setPower(data.admin ? UserPower.admin : UserPower.common);
+      setPower(data.power === 2 ? UserPower.admin : UserPower.common);
       infoDispatcher(parseToStudent(data));
     }
   };
@@ -79,7 +79,7 @@ export const User = createContainer(() => {
       setStatus(LoginStatus.logged);
       setToken("Token " + res.data.data.token);
     } catch (e) {
-      console.log(e.response);
+      console.log(e);
       setStatus(LoginStatus.notLogged);
       // setStatus(LoginStatus.logged); //TODO: test
       throw e;
@@ -107,7 +107,6 @@ export const User = createContainer(() => {
 
   useEffect(() => {
     if (token !== "") fetchInfo();
-    console.log(token);
   }, [token]);
   return {
     status,
